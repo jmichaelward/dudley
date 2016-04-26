@@ -1,0 +1,138 @@
+{
+    "key": "group_5705a3ccdb365",
+    "title": "Featured Links",
+    "fields": [
+        {
+            "key": "field_5705a72e55647",
+            "label": "Show Featured Links",
+            "name": "featured_links_show",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0
+        },
+        {
+            "key": "field_5705a3d158cbf",
+            "label": "Featured Links",
+            "name": "featured_links",
+            "type": "repeater",
+            "instructions": "This module generates a series of internal page links that are presented as a collection of staggered block elements with background images. All fields are required.",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5705a72e55647",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 4,
+            "max": 4,
+            "layout": "row",
+            "button_label": "Add Featured Link",
+            "sub_fields": [
+                {
+                    "key": "field_5705a3e858cc0",
+                    "label": "Page to Link",
+                    "name": "featured_links_page",
+                    "type": "post_object",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "page"
+                    ],
+                    "taxonomy": [
+
+                    ],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "object",
+                    "ui": 1
+                },
+                {
+                    "key": "field_5705a41b58cc1",
+                    "label": "Heading",
+                    "name": "featured_links_heading",
+                    "type": "text",
+                    "instructions": "Label for this link.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "readonly": 0,
+                    "disabled": 0
+                },
+                {
+                    "key": "field_5705a51e58cc2",
+                    "label": "Image",
+                    "name": "featured_links_image",
+                    "type": "image",
+                    "instructions": "Background image for this link block.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": ""
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 5,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1459989132
+}
