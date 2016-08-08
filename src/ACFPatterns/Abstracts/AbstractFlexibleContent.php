@@ -7,7 +7,7 @@ use Tfive\ACF\Traits\ActionTrait;
 
 /**
  * Class AbstractFlexibleContent
- * @package ThreeFiveACF\Abstracts
+ * @package Tfive\ACF\Abstracts
  */
 abstract class AbstractFlexibleContent extends AbstractRepeater
 {
@@ -94,6 +94,27 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 	}
 
 	/**
+	 * Get the array of layouts.
+	 *
+	 * @return array
+	 */
+	public function get_layouts() {
+		return $this->layouts;
+	}
+
+	/**
+	 * Do the action for each flexible content module.
+	 *
+	 * @param $layouts array
+	 */
+	public function do_layouts( $layouts ) {
+		foreach ( $layouts as $layout ) {
+			$template = new Template( $layout );
+			$template->render();
+		}
+	}
+
+	/**
 	 * Register WordPress actions for each flexible content module.
 	 *
 	 * @var $layout ActionTrait
@@ -107,14 +128,15 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 	}
 
 	/**
-	 * Do the action for each flexible content module.
 	 *
-	 * @param $layouts array
 	 */
-	public function do_layouts( $layouts ) {
-		foreach ( $layouts as $layout ) {
-			$template = new Template( $layout );
-			$template->render();
+	public static function get_template() {
+		$class = get_called_class();
+		$module = new $class;
+
+		/** @var $module AbstractFlexibleContent */
+		if ( $module->has_required() ) {
+			$module->do_layouts( $module->layouts );
 		}
 	}
 }
