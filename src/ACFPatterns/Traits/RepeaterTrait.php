@@ -1,13 +1,14 @@
 <?php
 
-namespace ThreeFiveACF\Abstracts;
+namespace Tfive\ACF\Traits;
+
+use Tfive\ACF\Abstracts\AbstractPattern;
 
 /**
- * Class AbstractPatternWithRepeater
- * @package ThreeFiveACF\Abstracts
+ * Trait RepeaterTrait
+ * @package ThreeFiveACF\Traits
  */
-abstract class AbstractPatternWithRepeater extends AbstractPattern
-{
+trait RepeaterTrait {
 	/**
 	 * @var array $items
 	 */
@@ -15,17 +16,21 @@ abstract class AbstractPatternWithRepeater extends AbstractPattern
 
 	/**
 	 * @param $item AbstractPattern
+	 *
+	 * @return bool|AbstractPattern
 	 */
 	protected function add_item( $item ) {
 		if ( $item->has_required() ) {
-			$this->items[] = $item;
+			return $item;
 		}
+
+		return false;
 	}
 
 	/**
 	 * @return array
 	 */
 	public function get_items() {
-		return $this->items;
+		return array_filter( $this->items );
 	}
 }

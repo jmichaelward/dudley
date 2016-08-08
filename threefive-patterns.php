@@ -1,48 +1,97 @@
 <?php
-
-namespace ThreeFive;
-
-use ThreeFiveACF\ACF;
+/**
+ * Plugin Name: 3five ACF Patterns
+ * Description: Store and render modular ACF content
+ * Plugin URI: http://3five.com
+ * Author: Jeremy Ward, 3five
+ * Author URI: http://3five.com
+ */
+namespace Tfive\ACF;
 
 /**
- * Plugin Name: 3five Patterns Library
- * Description: Register ACF modular content for use in custom themes.
- * Author: J. Michael Ward, 3five
- * Author URI: http://3five.com
- * Version: 0.1.0
- *
- * Class Patterns
- * @package ThreeFive
+ * Class ACFPatterns
+ * @package ACFPatterns
  */
 final class Patterns
 {
 	/**
-	 * @var $acf ACF
+	 * @var $acf
 	 */
-	private $acf;
+	public $acf;
 
 	/**
-	 * Patterns constructor.
+	 * ACF_Patterns constructor.
 	 */
 	public function __construct() {
+		$this->define_constants();
+		$this->load_dependencies();
+
+		register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+
+		add_action( 'admin_init', array( $this, 'check_requirements' ) );
+
+		$this->acf = new ACF();
+	}
+
+	/**
+	 *
+	 */
+	public function check_requirements() {
+		if ( ! class_exists( 'acf' ) ) {
+			add_action( 'admin_notices', array( $this, 'requirements_error' ) );
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+		}
+	}
+
+	/**
+	 * Define constants used by the plugin
+	 */
+	private function define_constants() {
 		// 3five Content Plugin Root Path
-		if ( ! defined( 'TFP_ROOT' ) ) {
-			define( 'TFP_ROOT', plugin_dir_path( __FILE__ ) );
+		if ( ! defined( 'ACFP_ROOT' ) ) {
+			define( 'ACFP_ROOT', plugin_dir_path( __FILE__ ) );
 		}
 
 		// 3five Content Plugin Model Source
-		if ( ! defined( 'TFP_SRC' ) ) {
-			define( 'TFP_SRC', plugin_dir_path( __FILE__ ) . '/src' );
+		if ( ! defined( 'ACFP_SRC_ROOT' ) ) {
+			define( 'ACFP_SRC_ROOT', plugin_dir_path( __FILE__ ) . 'src' );
 		}
 
 		// 3five Content Plugin ThreeFiveACF Source
 		if ( ! defined( 'ACFP_SRC' ) ) {
-			define( 'ACFP_SRC', plugin_dir_path( __FILE__ ) . '/src/ThreeFiveACF' );
+			define( 'ACFP_SRC', plugin_dir_path( __FILE__ ) . 'src/ACFPatterns' );
 		}
+	}
 
+
+	/**
+	 * Bootstrap needed dependencies
+	 */
+	public function load_dependencies() {
 		include_once ACFP_SRC . '/ACF.php';
+	}
 
-		$this->acf = new ACF();
+	/**
+	 *
+	 */
+	public function activate() {
+		if ( ! class_exists( 'acf' ) ) {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+			wp_die( 'Advanced Custom Fields Pro v5.0 or greater must be installed to use the 3five ACF Patterns plugin.' );
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function deactivate() {}
+
+	/**
+	 *
+	 */
+	public function requirements_error() {
+		echo wp_kses( '<p>' . esc_html__( '3five ACF Patterns requires Advanced Custom Fields Pro v5.0 or higher.' ) . '</p>', array( 'p' => array() ) );
 	}
 }
 
