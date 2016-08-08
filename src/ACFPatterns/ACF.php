@@ -69,16 +69,19 @@ class ACF
 	 */
 	private function autoload( $class ) {
 		$class = str_replace( '\\', '/', $class );
-		$parts = explode( '/', $class );
+		$class = str_replace( 'Tfive/ACF', 'ACFPatterns', $class );
 
-		if ( ! in_array( 'ThreeFiveACF', $parts ) ) {
+		if ( 0 !== strpos( $class, 'ACFPatterns' ) ) {
 			return;
 		}
+
+		$parts = explode( '/', $class );
 
 		if ( in_array( 'Pattern', $parts ) ) {
 			$path = ACFP_SRC_ROOT . '/' . $class . '.php';
 		} else {
 			$file = array_pop( $parts );
+
 			$path = ACFP_SRC_ROOT . '/' . implode( '/', $parts ) . '/' . $file . '.php';
 		}
 
