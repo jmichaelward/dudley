@@ -44,7 +44,10 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 			return;
 		}
 
-		$this->paths = $this->acf_field_assoc();
+		// Set the namespace for this module so its associated layouts can be included.
+		$class           = new \ReflectionClass( get_called_class() );
+		$this->namespace = $class->getNamespaceName();
+		$this->paths     = $this->acf_field_assoc();
 
 		$this->add_layouts( $this->field_name );
 		$this->add_layout_actions();
