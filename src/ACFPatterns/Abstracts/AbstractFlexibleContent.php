@@ -50,7 +50,6 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 		$this->paths     = $this->acf_field_assoc();
 
 		$this->add_layouts( $this->field_name );
-		$this->add_layout_actions();
 	}
 
 	/**
@@ -114,19 +113,6 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 		foreach ( $layouts as $layout ) {
 			$template = new Template( $layout );
 			$template->render();
-		}
-	}
-
-	/**
-	 * Register WordPress actions for each flexible content module.
-	 *
-	 * @var $layout ActionTrait
-	 */
-	private function add_layout_actions() {
-		foreach ( $this->layouts as $layout ) {
-			if ( ! has_action( $layout->get_action_name() ) ) {
-				add_action( $layout->get_action_name(), [ $layout, 'template_include' ], 10, 1 );
-			}
 		}
 	}
 
