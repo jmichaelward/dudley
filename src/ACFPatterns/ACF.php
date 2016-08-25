@@ -67,7 +67,7 @@ class ACF
 	/**
 	 * Autoload all of our needed pattern classes
 	 */
-	private function autoload( $class ) {
+	public function autoload( $class ) {
 		$class = str_replace( '\\', '/', $class );
 		$class = str_replace( 'Tfive/ACF', 'ACFPatterns', $class );
 

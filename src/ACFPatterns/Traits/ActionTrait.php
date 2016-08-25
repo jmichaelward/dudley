@@ -4,7 +4,7 @@ namespace Tfive\ACF\Traits;
 
 /**
  * Class ActionTrait
- * @package ThreeFiveACF\Traits
+ * @package Tfive\ACF\Traits
  */
 trait ActionTrait
 {

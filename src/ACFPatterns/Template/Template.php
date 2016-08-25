@@ -6,33 +6,37 @@ use Tfive\ACF\Abstracts\AbstractPattern;
 
 /**
  * Class Template
- * @package ThreeFiveACF\Template
+ * @package Tfive\ACF\Template
  */
-class Template
-{
+class Template {
+	/**
+	 * @var AbstractPattern
+	 */
+	private $pattern;
+
 	/**
 	 * @var string
 	 */
-	private $path;
+	private $filename;
 
 	/**
 	 * Template constructor.
 	 *
 	 * @param AbstractPattern $pattern Pattern to render
-	 * @param string $path Optional path override
 	 */
-	public function __construct( $pattern, $path = '' ) {
-		$this->path    = str_replace( '_', '-', $pattern::$action_name );
-		$this->pattern = $pattern;
+	public function __construct( AbstractPattern $pattern ) {
+		$this->pattern  = $pattern;
+		$this->filename = str_replace( '_', '-', $pattern::$action_name );
 	}
 
 	/**
-	 * Get the include path of the pattern's view (filterable for override by theme).
+	 * Get the file include path of the pattern's view (filterable for override by theme).
 	 */
-	private function path_include() {
-		$module = $this->pattern; // Variable used by the include files.
+	private function file_include() {
+		// Standard variable made available to and used by the view file to render output.
+		$module = $this->pattern;
 
-		include apply_filters( 'tf_acf_template_path', $this->path );
+		include apply_filters( 'tf_acf_template_path', $this->filename );
 	}
 
 	/**
@@ -40,7 +44,7 @@ class Template
 	 */
 	public function render() {
 		if ( $this->pattern->has_required() ) {
-			$this->path_include();
+			$this->file_include();
 		}
 	}
 }

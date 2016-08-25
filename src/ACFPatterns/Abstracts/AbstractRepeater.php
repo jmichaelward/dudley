@@ -2,34 +2,17 @@
 
 namespace Tfive\ACF\Abstracts;
 
+use Tfive\ACF\Traits\RepeaterTrait;
+
 /**
  * Class AbstractRepeater
  * @package ThreeFiveACF\Abstracts
  */
-abstract class AbstractRepeater extends AbstractPattern
-{
+abstract class AbstractRepeater extends AbstractPattern {
+	use RepeaterTrait;
+
 	/**
 	 * @var array $items
 	 */
 	protected $items = [ ];
-
-	/**
-	 * @param $item AbstractPattern
-	 *
-	 * @return bool|AbstractPattern
-	 */
-	protected function add_item( $item ) {
-		if ( $item->has_required() ) {
-			return $item;
-		}
-
-		return false;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function get_items() {
-		return array_filter( $this->items );
-	}
 }

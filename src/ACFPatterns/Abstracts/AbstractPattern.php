@@ -7,10 +7,9 @@ use Tfive\ACF\Template\Template;
 
 /**
  * Class AbstractPattern
- * @package ThreeFiveACF\Abstracts
+ * @package Tfive\ACF\Abstracts
  */
-abstract class AbstractPattern
-{
+abstract class AbstractPattern {
 	use ActionTrait;
 
 	/**

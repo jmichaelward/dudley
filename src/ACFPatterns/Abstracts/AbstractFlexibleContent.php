@@ -3,43 +3,37 @@
 namespace Tfive\ACF\Abstracts;
 
 use Tfive\ACF\Template\Template;
-use Tfive\ACF\Traits\ActionTrait;
 
 /**
  * Class AbstractFlexibleContent
  * @package Tfive\ACF\Abstracts
  */
-abstract class AbstractFlexibleContent extends AbstractRepeater
-{
+abstract class AbstractFlexibleContent extends AbstractPattern {
 	/**
-	 * @var
+	 * @var string $field_name Name of the ACF Flexible Content meta field key.
 	 */
 	protected $field_name;
 
 	/**
-	 * @var
+	 * @var array $paths Key/value array of ACF Flexible Content layout meta keys and associated class names.
+	 *                   e.g., [ 'example_acf_flex_layout' => 'ExampleAcfFlexLayout' ]
 	 */
 	protected $paths;
 
 	/**
-	 * @var
+	 * @var string $namespace Namespace of the concrete flexible content instance.
 	 */
 	protected $namespace;
 
 	/**
-	 * @var array
+	 * @var array $layouts Array of individual layout objects.
 	 */
-	protected $layouts = [];
-
-	/**
-	 * @return array
-	 */
-	abstract protected function acf_field_assoc();
+	protected $layouts = [ ];
 
 	/**
 	 * Convert ACF field names for layouts into class objects.
 	 */
-	protected function init() {
+	public function __construct() {
 		if ( ! have_rows( $this->field_name ) ) {
 			return;
 		}
@@ -50,40 +44,29 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 		$this->paths     = $this->acf_field_assoc();
 
 		$this->add_layouts( $this->field_name );
-		$this->add_layout_actions();
 	}
 
 	/**
-	 * Add layout modules to this flexible content module.
+	 * Basic flex content modules need only their set of layouts. This can be overridden if it's a more complex
+	 * module with extra fields in addition to the individual layouts.
 	 *
-	 * @param $rows_name
+	 * @return array
 	 */
-	private function add_layouts( $rows_name ) {
-		while ( have_rows( $rows_name ) ) {
-			the_row();
-
-			$layout = get_row_layout();
-
-			if ( ! isset( $this->paths[ $layout ] ) ) {
-				continue;
-			}
-
-			$this->add_layout( $layout );
-		}
+	public function requirements() {
+		return [
+			$this->layouts,
+		];
 	}
 
 	/**
-	 * @param AbstractPattern $layout
+	 * Concrete classes should declare a key/value array of ACF Flexible Content layout meta keys and
+	 * associated class names. This will be assigned to $this->paths on instantiation.
+	 *
+	 * e.g., [ 'example_acf_flex_layout' => 'ExampleAcfFlexLayout' ]
+	 *
+	 * @return array
 	 */
-	private function add_layout( $layout ) {
-		$class = $this->include_class( $layout );
-		$item  = new $class;
-
-		/**	@var $item AbstractPattern */
-		if ( $item->has_required() ) {
-			$this->layouts[] = $item;
-		}
-	}
+	abstract protected function acf_field_assoc();
 
 	/**
 	 * Namespace for the layout class being loaded.
@@ -97,12 +80,39 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 	}
 
 	/**
-	 * Get the array of layouts.
+	 * Instantiate an instance of a layout and add it to this module's collection if it has all requirements.
 	 *
-	 * @return array
+	 * @param AbstractPattern $layout
 	 */
-	public function get_layouts() {
-		return $this->layouts;
+	private function add_layout( $layout ) {
+		$class = $this->include_class( $layout );
+		$item  = new $class;
+
+		/** @var $item AbstractPattern */
+		if ( $item->has_required() ) {
+			$this->layouts[] = $item;
+		}
+	}
+
+	/**
+	 * Compare layout name with registered class associations. If they exist, create a new instance of the layout class.
+	 *
+	 * @param $rows_name
+	 *
+	 * @return AbstractFlexibleContent For method chaining.
+	 */
+	private function add_layouts( $rows_name ) {
+		while ( have_rows( $rows_name ) ) {
+			the_row();
+
+			$layout = get_row_layout();
+
+			if ( array_key_exists( $layout, $this->paths ) ) {
+				$this->add_layout( $layout );
+			}
+		}
+
+		return $this;
 	}
 
 	/**
@@ -110,7 +120,7 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 	 *
 	 * @param $layouts array
 	 */
-	public function do_layouts( $layouts ) {
+	private function do_layouts( $layouts ) {
 		foreach ( $layouts as $layout ) {
 			$template = new Template( $layout );
 			$template->render();
@@ -118,23 +128,11 @@ abstract class AbstractFlexibleContent extends AbstractRepeater
 	}
 
 	/**
-	 * Register WordPress actions for each flexible content module.
-	 *
-	 * @var $layout ActionTrait
-	 */
-	private function add_layout_actions() {
-		foreach ( $this->layouts as $layout ) {
-			if ( ! has_action( $layout->get_action_name() ) ) {
-				add_action( $layout->get_action_name(), [ $layout, 'template_include' ], 10, 1 );
-			}
-		}
-	}
-
-	/**
-	 *
+	 * Initialize instance of this class when do_action is called in a theme.
+	 * Overrides the AbstractPattern's method.
 	 */
 	public static function get_template() {
-		$class = get_called_class();
+		$class  = get_called_class();
 		$module = new $class;
 
 		/** @var $module AbstractFlexibleContent */
