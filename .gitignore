@@ -1,0 +1,4 @@
+/vendor/
+
+# Normally we'd commit this, but our particular use case is unique.
+composer.lock

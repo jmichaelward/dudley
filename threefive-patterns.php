@@ -20,18 +20,42 @@ final class Patterns
 	public $acf;
 
 	/**
+	 * Path to the acf-json directory.
+	 *
+	 * @var string
+	 */
+	public $acf_json_path;
+
+	/**
+	 * Define patterns to use here, e.g., [ 'Banner', 'SocialMediaAccounts' ]
+	 * @var array
+	 */
+	private $std_patterns = [ ];
+
+	/**
 	 * ACF_Patterns constructor.
 	 */
 	public function __construct() {
-		$this->define_constants();
-		$this->load_dependencies();
+		$autoload_file = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+
+		if ( ! file_exists( $autoload_file ) ) {
+			return;
+		}
+
+		require_once $autoload_file;
+
+		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
+		// Set ACF save and load paths
+		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
+		add_filter( 'acf/settings/load_json', array( $this, 'acf_load_path' ) );
+
 		add_action( 'admin_init', array( $this, 'check_requirements' ) );
 
-		$this->acf = new ACF();
+		$this->acf = new ACF( $this->std_patterns );
 	}
 
 	/**
@@ -45,35 +69,7 @@ final class Patterns
 	}
 
 	/**
-	 * Define constants used by the plugin
-	 */
-	private function define_constants() {
-		// 3five Content Plugin Root Path
-		if ( ! defined( 'ACFP_ROOT' ) ) {
-			define( 'ACFP_ROOT', plugin_dir_path( __FILE__ ) );
-		}
-
-		// 3five Content Plugin Model Source
-		if ( ! defined( 'ACFP_SRC_ROOT' ) ) {
-			define( 'ACFP_SRC_ROOT', plugin_dir_path( __FILE__ ) . 'src' );
-		}
-
-		// 3five Content Plugin ThreeFiveACF Source
-		if ( ! defined( 'ACFP_SRC' ) ) {
-			define( 'ACFP_SRC', plugin_dir_path( __FILE__ ) . 'src/ACFPatterns' );
-		}
-	}
-
-
-	/**
-	 * Bootstrap needed dependencies
-	 */
-	public function load_dependencies() {
-		include_once ACFP_SRC . '/ACF.php';
-	}
-
-	/**
-	 *
+	 * Run on plugin activation.
 	 */
 	public function activate() {
 		if ( ! class_exists( 'acf' ) ) {
@@ -83,7 +79,7 @@ final class Patterns
 	}
 
 	/**
-	 *
+	 * Run on plugin deactivation.
 	 */
 	public function deactivate() {}
 
@@ -92,6 +88,28 @@ final class Patterns
 	 */
 	public function requirements_error() {
 		echo wp_kses( '<p>' . esc_html__( '3five ACF Patterns requires Advanced Custom Fields Pro v5.0 or higher.' ) . '</p>', array( 'p' => array() ) );
+	}
+
+	/**
+	 * @return string Set the ACF save path for new custom fields.
+	 */
+	public function acf_save_path()
+	{
+		return $this->acf_json_path;
+	}
+
+	/**
+	 * @param $paths
+	 *
+	 * @return array
+	 */
+	public function acf_load_path( $paths )
+	{
+		unset( $paths[0] );
+
+		$paths[] = $this->acf_json_path;
+
+		return $paths;
 	}
 }
 
