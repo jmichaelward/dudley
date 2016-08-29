@@ -42,7 +42,8 @@ final class Patterns
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
 		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
-		$this->acf           = new ACF( $this->locate_patterns() );
+
+		$this->locate_patterns();
 
 		// Set ACF save and load paths
 		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
@@ -106,10 +107,36 @@ final class Patterns
 	}
 
 	/**
-	 * @return array
+	 * Process the array in the Composer autoload classmap in order to automatically include our selected patterns.
 	 */
 	private function locate_patterns() {
-		return [ ];
+		$patterns = ( include plugin_dir_path( __FILE__ ) . 'vendor/composer/autoload_classmap.php' );
+
+		if ( ! $patterns ) {
+			$error = new \WP_Error( 'broke', _e( 'No patterns installed! Did you remember to run "composer install -a"?' ) );
+			wp_die( $error->get_error_message() );
+			exit;
+		}
+
+		$acf_patterns = array_filter( array_map( function( $key ) {
+			if ( strpos( $key, '\Pattern\\' ) ) {
+				$namespace = explode( '\\', $key );
+
+				/**
+				 * Note: "Actual" patterns look like Tfive\ACF\Pattern\[Pattern Name]\[Pattern Name]
+				 *
+				 * Some patterns have child elements, but they shouldn't get included here because they don't need
+				 * to have an associated WordPress action.
+				 */
+				if ( array_pop( $namespace ) === array_pop( $namespace ) ) {
+					return $key;
+				}
+			}
+
+			return false;
+		}, array_keys( $patterns ) ) );
+
+		$this->acf = new ACF( $acf_patterns );
 	}
 }
 
