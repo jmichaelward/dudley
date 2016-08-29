@@ -27,12 +27,6 @@ final class Patterns
 	public $acf_json_path;
 
 	/**
-	 * Define patterns to use here, e.g., [ 'Banner', 'SocialMediaAccounts' ]
-	 * @var array
-	 */
-	private $std_patterns = [ ];
-
-	/**
 	 * ACF_Patterns constructor.
 	 */
 	public function __construct() {
@@ -44,18 +38,17 @@ final class Patterns
 
 		require_once $autoload_file;
 
-		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
-
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+
+		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
+		$this->acf           = new ACF( $this->locate_patterns() );
 
 		// Set ACF save and load paths
 		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
 		add_filter( 'acf/settings/load_json', array( $this, 'acf_load_path' ) );
 
 		add_action( 'admin_init', array( $this, 'check_requirements' ) );
-
-		$this->acf = new ACF( $this->std_patterns );
 	}
 
 	/**
@@ -110,6 +103,13 @@ final class Patterns
 		$paths[] = $this->acf_json_path;
 
 		return $paths;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function locate_patterns() {
+		return [ ];
 	}
 }
 
