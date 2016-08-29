@@ -70,6 +70,8 @@ final class Patterns
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 			wp_die( 'Advanced Custom Fields Pro v5.0 or greater must be installed to use the 3five ACF Patterns plugin.' );
 		}
+
+		$this->copy_acf_field_groups();
 	}
 
 	/**
@@ -137,6 +139,43 @@ final class Patterns
 		}, array_keys( $patterns ) ) );
 
 		$this->acf = new ACF( $acf_patterns );
+	}
+
+	private function copy_acf_field_groups() {
+		// This section derived from http://php.net/manual/en/class.recursivedirectoryiterator.php#114504
+		$directory = new \RecursiveDirectoryIterator(
+			plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns/',
+			\FilesystemIterator::FOLLOW_SYMLINKS
+		);
+		$filter = new \RecursiveCallbackFilterIterator($directory, function( $current, $key, $iterator ) {
+			// Skip hidden files and directories.
+			if ($current->getFilename()[0] === '.') {
+				return false;
+			}
+
+			if ($current->isDir()) {
+				// Only recurse into intended subdirectories.
+				return $current->getFilename() !== 'acfpatterns';
+			}
+
+			// Get all of the ACF JSON files
+			return preg_match( '/group_[a-z0-9]*.json/', $current->getFilename() );
+		} );
+
+		$iterator  = new \RecursiveIteratorIterator( $filter );
+		$files = [];
+
+		foreach ( $iterator as $info ) {
+			array_push( $files, $info->getPathname());
+		}
+
+		foreach ( $files as $file ) {
+			$filename_parts = explode( '/', $file );
+
+			if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'acf-json' ) ) {
+				copy( $file, plugin_dir_path( __FILE__ ) . 'acf-json/' . array_pop( $filename_parts ) );
+			}
+		}
 	}
 }
 
