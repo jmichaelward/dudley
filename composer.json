@@ -10,17 +10,12 @@
     ],
     "minimum-stability": "beta",
     "require": {
-        "acfpatterns/acfpatterns": "dev-master",
-        "acfpatterns/social-media-accounts": "dev-master"
+        "acfpatterns/acfpatterns": "dev-master"
     },
     "repositories": [
         {
             "type": "git",
             "url": "git@bitbucket.org:3five/3five-acf-patterns-base-package.git"
-        },
-        {
-            "type": "git",
-            "url": "git@bitbucket.org:3five/social-media-accounts.git"
         }
     ]
 }
