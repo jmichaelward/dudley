@@ -38,9 +38,6 @@ final class Patterns
 
 		require_once $autoload_file;
 
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
 		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
 
 		$this->locate_patterns();
@@ -159,7 +156,8 @@ final class Patterns
 			}
 
 			// Get all of the ACF JSON files
-			return preg_match( '/group_[a-z0-9]*.json/', $current->getFilename() );
+			$test = preg_match( '/group_[a-z0-9]*.json/', $current->getFilename() );
+			return $test;
 		} );
 
 		$iterator  = new \RecursiveIteratorIterator( $filter );
@@ -171,12 +169,16 @@ final class Patterns
 
 		foreach ( $files as $file ) {
 			$filename_parts = explode( '/', $file );
+			$filename = array_pop( $filename_parts );
 
-			if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'acf-json' ) ) {
-				copy( $file, plugin_dir_path( __FILE__ ) . 'acf-json/' . array_pop( $filename_parts ) );
+			if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'acf-json/' . $filename ) ) {
+				copy( $file, plugin_dir_path( __FILE__ ) . 'acf-json/' . $filename );
 			}
 		}
 	}
 }
 
-new Patterns();
+$plugin = new Patterns();
+
+register_activation_hook( __FILE__, array( $plugin, 'activate' ) );
+register_deactivation_hook( __FILE__, array( $plugin, 'deactivate' ) );
