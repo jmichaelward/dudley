@@ -147,6 +147,10 @@ final class Patterns
 	 * TODO: Create a user interaction that allows devs to do this from the Dashboard. Currently runs on activation only.
 	 */
 	private function copy_acf_field_groups() {
+		if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns' ) ) {
+			return;
+		}
+
 		// This section derived from http://php.net/manual/en/class.recursivedirectoryiterator.php#114504
 		$directory = new \RecursiveDirectoryIterator(
 			plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns/',
