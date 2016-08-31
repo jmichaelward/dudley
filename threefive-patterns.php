@@ -27,6 +27,11 @@ final class Patterns
 	public $acf_json_path;
 
 	/**
+	 * @var
+	 */
+	private $notifier;
+
+	/**
 	 * ACF_Patterns constructor.
 	 */
 	public function __construct() {
@@ -40,8 +45,6 @@ final class Patterns
 
 		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
 
-		$this->locate_patterns();
-
 		// Set ACF save and load paths
 		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
 		add_filter( 'acf/settings/load_json', array( $this, 'acf_load_path' ) );
@@ -53,10 +56,14 @@ final class Patterns
 	 *
 	 */
 	public function check_requirements() {
+		include_once plugin_dir_path( __FILE__ ) . '/src/AdminNotifier.php';
+		$this->notifier = new AdminNotifier();
+
 		if ( ! class_exists( 'acf' ) ) {
-			add_action( 'admin_notices', array( $this, 'requirements_error' ) );
-			deactivate_plugins( plugin_basename( __FILE__ ) );
+			$this->notifier->missing_acf_requirement();
 		}
+
+		$this->locate_patterns();
 	}
 
 	/**
@@ -75,13 +82,6 @@ final class Patterns
 	 * Run on plugin deactivation.
 	 */
 	public function deactivate() {}
-
-	/**
-	 *
-	 */
-	public function requirements_error() {
-		echo wp_kses( '<p>' . esc_html__( '3five ACF Patterns requires Advanced Custom Fields Pro v5.0 or higher.' ) . '</p>', array( 'p' => array() ) );
-	}
 
 	/**
 	 * @return string Set the ACF save path for new custom fields.
@@ -107,14 +107,15 @@ final class Patterns
 
 	/**
 	 * Process the array in the Composer autoload classmap in order to automatically include our selected patterns.
+	 *
+	 * @return bool
 	 */
-	private function locate_patterns() {
+	public function locate_patterns() {
 		$patterns = ( include plugin_dir_path( __FILE__ ) . 'vendor/composer/autoload_classmap.php' );
 
 		if ( ! $patterns ) {
-			$error = new \WP_Error( 'broke', _e( 'No patterns installed! Did you remember to run "composer install -a"?' ) );
-			wp_die( $error->get_error_message() );
-			exit;
+			$this->notifier->missing_autoload_classmap();
+			return false;
 		}
 
 		$acf_patterns = array_filter( array_map( function( $key ) {
@@ -136,8 +137,16 @@ final class Patterns
 		}, array_keys( $patterns ) ) );
 
 		$this->acf = new ACF( $acf_patterns );
+
+		return true;
 	}
 
+	/**
+	 * Scan the vendor/acfpatterns/ directory for ACF field group JSON files and copy them into ./acf-json/ if
+	 * they don't already exist (we don't want to overwrite anything that's already there).
+	 *
+	 * TODO: Create a user interaction that allows devs to do this from the Dashboard. Currently runs on activation only.
+	 */
 	private function copy_acf_field_groups() {
 		// This section derived from http://php.net/manual/en/class.recursivedirectoryiterator.php#114504
 		$directory = new \RecursiveDirectoryIterator(
