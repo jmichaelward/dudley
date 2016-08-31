@@ -27,7 +27,7 @@ final class Patterns
 	public $acf_json_path;
 
 	/**
-	 * @var
+	 * @var $notifier AdminNotifier
 	 */
 	private $notifier;
 
@@ -49,8 +49,24 @@ final class Patterns
 		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
 		add_filter( 'acf/settings/load_json', array( $this, 'acf_load_path' ) );
 
-		add_action( 'admin_init', array( $this, 'check_requirements' ) );
+		add_action( 'init', array( $this, 'check_requirements' ) );
 	}
+
+	/**
+	 * Run on plugin activation.
+	 */
+	public function activate() {
+		if ( ! class_exists( 'acf' ) ) {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+		}
+
+		$this->copy_acf_field_groups();
+	}
+
+	/**
+	 * Run on plugin deactivation.
+	 */
+	public function deactivate() {}
 
 	/**
 	 *
@@ -65,23 +81,6 @@ final class Patterns
 
 		$this->locate_patterns();
 	}
-
-	/**
-	 * Run on plugin activation.
-	 */
-	public function activate() {
-		if ( ! class_exists( 'acf' ) ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-			wp_die( 'Advanced Custom Fields Pro v5.0 or greater must be installed to use the 3five ACF Patterns plugin.' );
-		}
-
-		$this->copy_acf_field_groups();
-	}
-
-	/**
-	 * Run on plugin deactivation.
-	 */
-	public function deactivate() {}
 
 	/**
 	 * @return string Set the ACF save path for new custom fields.
@@ -153,7 +152,7 @@ final class Patterns
 			plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns/',
 			\FilesystemIterator::FOLLOW_SYMLINKS
 		);
-		$filter = new \RecursiveCallbackFilterIterator($directory, function( $current, $key, $iterator ) {
+		$filter = new \RecursiveCallbackFilterIterator($directory, function( $current ) {
 			// Skip hidden files and directories.
 			if ($current->getFilename()[0] === '.') {
 				return false;
