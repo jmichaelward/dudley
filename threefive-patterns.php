@@ -118,18 +118,9 @@ final class Patterns
 		}
 
 		$acf_patterns = array_filter( array_map( function( $key ) {
-			if ( strpos( $key, '\Pattern\\' ) ) {
-				$namespace = explode( '\\', $key );
-
-				/**
-				 * Note: "Actual" patterns look like Tfive\ACF\Pattern\[Pattern Name]\[Pattern Name]
-				 *
-				 * Some patterns have child elements, but they shouldn't get included here because they don't need
-				 * to have an associated WordPress action.
-				 */
-				if ( array_pop( $namespace ) === array_pop( $namespace ) ) {
-					return $key;
-				}
+			// Check for patterns that also have a set action name so we can register them.
+			if ( strpos( $key, '\Pattern\\' ) && $key::$action_name ) {
+				return $key;
 			}
 
 			return false;
