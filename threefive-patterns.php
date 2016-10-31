@@ -12,8 +12,7 @@ namespace Tfive\ACF;
  * Class ACFPatterns
  * @package ACFPatterns
  */
-final class Patterns
-{
+final class Patterns {
 	/**
 	 * @var $acf
 	 */
@@ -45,6 +44,8 @@ final class Patterns
 
 		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
 
+		$this->define_constants();
+
 		// Set ACF save and load paths
 		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
 		add_filter( 'acf/settings/load_json', array( $this, 'acf_load_path' ) );
@@ -66,7 +67,14 @@ final class Patterns
 	/**
 	 * Run on plugin deactivation.
 	 */
-	public function deactivate() {}
+	public function deactivate() {
+	}
+
+	private function define_constants() {
+		if ( ! defined( 'PLUGIN_ROOT' ) ) {
+			define( 'PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
+		}
+	}
 
 	/**
 	 *
@@ -85,8 +93,7 @@ final class Patterns
 	/**
 	 * @return string Set the ACF save path for new custom fields.
 	 */
-	public function acf_save_path()
-	{
+	public function acf_save_path() {
 		return $this->acf_json_path;
 	}
 
@@ -95,8 +102,7 @@ final class Patterns
 	 *
 	 * @return array
 	 */
-	public function acf_load_path( $paths )
-	{
+	public function acf_load_path( $paths ) {
 		unset( $paths[0] );
 
 		$paths[] = $this->acf_json_path;
@@ -114,6 +120,7 @@ final class Patterns
 
 		if ( ! $patterns ) {
 			$this->notifier->missing_autoload_classmap();
+
 			return false;
 		}
 
@@ -135,7 +142,8 @@ final class Patterns
 	 * Scan the vendor/acfpatterns/ directory for ACF field group JSON files and copy them into ./acf-json/ if
 	 * they don't already exist (we don't want to overwrite anything that's already there).
 	 *
-	 * TODO: Create a user interaction that allows devs to do this from the Dashboard. Currently runs on activation only.
+	 * TODO: Create a user interaction that allows devs to do this from the Dashboard. Currently runs on activation
+	 * only.
 	 */
 	private function copy_acf_field_groups() {
 		if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns' ) ) {
@@ -147,32 +155,34 @@ final class Patterns
 			plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns/',
 			\FilesystemIterator::FOLLOW_SYMLINKS
 		);
-		$filter = new \RecursiveCallbackFilterIterator($directory, function( $current ) {
+
+		$filter = new \RecursiveCallbackFilterIterator( $directory, function( \SplFileInfo $current ) {
 			// Skip hidden files and directories.
-			if ($current->getFilename()[0] === '.') {
+			if ( $current->getFilename()[0] === '.' ) {
 				return false;
 			}
 
-			if ($current->isDir()) {
+			if ( $current->isDir() ) {
 				// Only recurse into intended subdirectories.
 				return $current->getFilename() !== 'acfpatterns';
 			}
 
 			// Get all of the ACF JSON files
 			$test = preg_match( '/group_[a-z0-9]*.json/', $current->getFilename() );
+
 			return $test;
 		} );
 
-		$iterator  = new \RecursiveIteratorIterator( $filter );
-		$files = [];
+		$iterator = new \RecursiveIteratorIterator( $filter );
+		$files    = [];
 
 		foreach ( $iterator as $info ) {
-			array_push( $files, $info->getPathname());
+			array_push( $files, $info->getPathname() );
 		}
 
 		foreach ( $files as $file ) {
 			$filename_parts = explode( '/', $file );
-			$filename = array_pop( $filename_parts );
+			$filename       = array_pop( $filename_parts );
 
 			if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'acf-json/' . $filename ) ) {
 				copy( $file, plugin_dir_path( __FILE__ ) . 'acf-json/' . $filename );

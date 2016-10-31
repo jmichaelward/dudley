@@ -8,6 +8,11 @@
             "email": "jeremy@3five.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Tfive\\ACF\\": "src/"
+        }
+    },
     "minimum-stability": "dev",
     "require": {
         "acfpatterns/acfpatterns": "dev-master"
