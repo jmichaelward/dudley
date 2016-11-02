@@ -124,13 +124,16 @@ final class Patterns {
 			return false;
 		}
 
-		$acf_patterns = array_filter( array_map( function( $key ) {
+		$acf_patterns = array_filter( array_map( function( $pattern_class ) {
 			// Check for patterns that also have a set action name so we can register them.
-			if ( strpos( $key, '\Pattern\\' ) && $key::$action_name ) {
-				return $key;
-			}
+			if ( strpos( $pattern_class, '\\Pattern\\' ) && property_exists( $pattern_class, 'action_name' ) ) {
+				// Make sure we're defining actions for our patterns.
+				if ( empty( $pattern_class::$action_name ) ) {
+					throw new \LogicException( 'No action defined for ' . $pattern_class );
+				}
 
-			return false;
+				return $pattern_class;
+			}
 		}, array_keys( $patterns ) ) );
 
 		$this->acf = new ACF( $acf_patterns );
