@@ -8,6 +8,9 @@
             "email": "jeremy@3five.com"
         }
     ],
+    "config": {
+        "secure-http": false
+    },
     "autoload": {
         "psr-4": {
             "Tfive\\ACF\\": "src/"
@@ -15,12 +18,12 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "acfpatterns/acfpatterns": "dev-master"
+        "acfpatterns/acfpatterns": "*"
     },
     "repositories": [
         {
-            "type": "git",
-            "url": "git@bitbucket.org:3five/3five-acf-patterns-base-package.git"
+            "type": "composer",
+            "url": "http://packages.3five.com"
         }
     ]
 }
