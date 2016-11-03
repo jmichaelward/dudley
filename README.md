@@ -3,72 +3,78 @@ Contributors: 3five, jmichaelward
 Donate link: 
 Tags: advanced custom fields, patterns library
 Requires at least: 4.5.3
-Tested up to: 4.5.3
+Tested up to: 4.6.1
 Stable tag: 0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 # Description
-In the agency world, we tend to recreate the same types of modular components over and 
-over between projects - image carousels, FAQ accordions, huge hero areas with 
-headlines and calls to actions - the list goes on.
+In the agency world, clients hire companies like 3five to develop fully-custom
+themes for their website. Designers create mockups, developers build these mockups
+out to spec, and before long, the site is live. What we sometimes fail to recognize in
+the process is that, although the theme is custom, many of the components that comprise
+it are a reimaging of a component that was developed in a previous project.
 
-This plugin serves as a framework for quickly integrating existing 
-development patterns into client projects. It enables developers to pull
-in JSON files that define data structures in Advanced Custom Fields, and 
-combine it with a data model and markup to quickly scaffold out new page 
-templates.
+Web users have come to expect certain kinds of functionality on a site and, as a 
+result, a variety of design patterns have emerged. Agencies like ours have a tendency to 
+recreate these patterns from scratch each time we take on a new project: image carousels, 
+FAQ accordions, huge banner areas with headlines and calls to actions, featured links, 
+and so on.
 
-For now, this repo contains only the development framework - there are no
-sample modules, markup, or ACF data structures. In time, 3five will integrate
-the ability for developers to define which modules to import into a project 
-via a composer.json file, and provide tools for importing base CSS and 
-JavaScript the modules need in order to render and function. 
+The goal of the 3five ACF Patterns plugin is to simplify the process. Instead of building *everything* 
+from scratch, what if we reused some of the most common patterns, so that we could instead
+focus our efforts on the parts of a site that are truly custom?
 
-# Installation Requirements
-In order to install the components that power this plugin, you need to have Composer installed. Additionally,
-this plugin requires PHP 5.4 or greater to function, as it relies on some modern PHP conventions, such as 
-namespaces, short array syntax, and more.
+This plugin provides out-of-the-box access to a series of packages developers can install.
+These packages contain JSON files that define data structures using Advanced Custom Fields, 
+PHP model classes for accessing and outputting that data, template views with HTML markup for each module, 
+and base CSS and JavaScript to provide each module with its core visual appearance and interactivity.
 
-# Installation
-1. Clone this repo into the plugins directory of your WordPress installation `git clone git@bitbucket.org:3five/3five-acf-patterns` 
-2. Browse the [3five Patterns Library](https://bitbucket.org/account/user/3five/projects/PL) for possible packages to include.
-3. Configure the `composer.json` file within the plugin to require those packages (Note: until/unless these packages go public,
-    we'll need to define both the name of the package (under "require") and the location of the repository (under 
-    "repositories"). Here is an example configuration that uses the Social Media Accounts package:
+## Requirements
+- Latest stable version of Composer
+- PHP 5.4 or greater
+
+## Installation
+1. Clone this repo into the plugins directory of your WordPress installation `git clone git@bitbucket.org:3five/3five-acf-patterns.git` 
+2. Browse the [3five Patterns Library](https://bitbucket.org/account/user/3five/projects/PL) or the [Satis repository](http://packages.3five.com)for possible packages to include.
+3. Configure the plugin's `composer.json` file to require the packages you need. Here is an example configuration that uses the Social Media Accounts package:
     
-    ```
-    {
-        "name": "3five/3five-acf-patterns",
-        "description": "A WordPress plugin framework for installing reusable site theme modules.",
-        "type": "project",
-        "authors": [
-            {
-                "name": "Jeremy Ward",
-                "email": "jeremy@3five.com"
-            }
-        ],
-        "minimum-stability": "beta",
-        "require": {
-            "acfpatterns/acfpatterns": "dev-master",
-            "acfpatterns/social-media-accounts": "dev-master"
-        },
-        "repositories": [
-            {
-                "type": "git",
-                "url": "git@bitbucket.org:3five/3five-acf-patterns-base-package.git"
-            },
-            {
-                "type": "git",
-                "url": "git@bitbucket.org:3five/social-media-accounts.git"
-            }
-        ]
-    }
-    ```
+```
+{
+    "name": "3five/3five-acf-patterns",
+    "description": "A WordPress plugin framework for installing reusable site theme modules.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jeremy Ward",
+            "email": "jeremy@3five.com"
+        }
+    ],
+    "config": {
+        "secure-http": false
+    },
+    "autoload": {
+        "psr-4": {
+            "Tfive\\ACF\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "acfpatterns/acfpatterns": "*",
+        "acfpatterns/social-media-accounts: "*"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.3five.com"
+        }
+    ]
+}
+```
 4. In the command line, from the root of the plugin directory, run `composer validate` to confirm that your `composer.json`
     file is properly formatted.
 5. Next, run `composer install -a`. The `-a` flag generates an autoloader classmap that the plugin uses to identify the
-    location of installed packages. This allows the plugin to automatically register which Patterns you intend to use,
+    location of installed classes. This allows the plugin to automatically register which patterns you intend to use,
     and set up the actions you'll need to pull them into your theme templates. 
     
     *Note: if you forgot to type the `-a` flag, you can repair the installation by running `composer dump-autoload --optimize`.
@@ -97,18 +103,19 @@ links with text of the names of the networks, and the URLs should direct to the 
 left now is to style the module!
 
 _Note:_ If you follow these steps above and don't see any output, confirm the following:
-1. The field group has been assigned to the correct template or post type
-2. All of the required fields have been entered into the module
+1. The field group has been assigned to the correct template or post type.
+2. All of the required fields have been entered into the module.
 3. You've called the correct action (these should be documented in the repo for each package, but are also viewable
     in the main PHP class. Each module has a static property called `$action_name` that is used to build the name of 
     the action. All actions are prefixed with `tf_acf_`).
 4. You've called the action in the correct template.
 
-# Location of Patterns files
+## Location of Patterns files
 From the plugin root, files for individual patterns are stored under `/vendor/acfpatterns`. `/vendor/acfpatterns/acfpatterns`
 contains all of the base files needed to power each package; every other package will live in a directory with its name. 
 Each package contains a JSON file with its default ACF data structure, an `assets/` directory for its SCSS and JavaScript
 files, a `views/` directory for its template markup, and a `src/` directory for its logic.
+
 
 # Writing Custom Patterns
 
@@ -156,11 +163,11 @@ particular example, `MegaMenu` might have menu items, so it would extend `Abstra
 class called `MegaMenu` item with the same `Tfive\ACF\Pattern\MegaMenu` namespace, but which would extend `AbstractPattern`. 
 Please refer to the 3five Wiki for more details).
 
-# Importing SCSS and JavaScript
+## Importing SCSS and JavaScript
 Long-term, we're seeking to have a more integrated solution for pulling in these files. For now, you should be able to 
 add them to your theme build tools to import them directly from their package `assets/` directory.
 
-# Overriding markup
+## Overriding markup
 For the most part, we shouldn't need to override the markup or data structure for a module, because if something requires
 a lot of customization, then it may not be an instance of the pattern we're choosing. That said, if you want to modify
 an individual module's markup, you can do so by simply creating a directory in the root of your theme called
