@@ -35,9 +35,9 @@ and base CSS and JavaScript to provide each module with its core visual appearan
 - PHP 5.4 or greater
 
 ## Installation
-1. Clone this repo into the plugins directory of your WordPress installation `git clone git@bitbucket.org:3five/3five-acf-patterns.git` 
-2. Browse the [3five Patterns Library](https://bitbucket.org/account/user/3five/projects/PL) or the [Satis repository](https://packages.3five.com) for possible packages to include.
-3. Configure the plugin's `composer.json` file to require the packages you need. Here is an example configuration that uses the Social Media Accounts package:
+- Clone this repo into the plugins directory of your WordPress installation `git clone git@bitbucket.org:3five/3five-acf-patterns.git` 
+- Browse the [3five Patterns Library](https://bitbucket.org/account/user/3five/projects/PL) or the [Satis repository](https://packages.3five.com) for possible packages to include.
+- Configure the plugin's `composer.json` file to require the packages you need. Here is an example configuration that uses the Social Media Accounts package:
     
 ```
 {
@@ -68,15 +68,15 @@ and base CSS and JavaScript to provide each module with its core visual appearan
     ]
 }
 ```
-4. In the command line, from the root of the plugin directory, run `composer validate` to confirm that your `composer.json`
+- In the command line, from the root of the plugin directory, run `composer validate` to confirm that your `composer.json`
     file is properly formatted.
-5. Next, run `composer install -a`. The `-a` flag generates an autoloader classmap that the plugin uses to identify the
+- Next, run `composer install -a`. The `-a` flag generates an autoloader classmap that the plugin uses to identify the
     location of installed classes. This allows the plugin to automatically register which patterns you intend to use,
     and set up the actions you'll need to pull them into your theme templates. 
     
     *Note: if you forgot to type the `-a` flag, you can repair the installation by running `composer dump-autoload --optimize`.
     In fact, this command will need to be run anytime you make a change to your `composer.json` file.*
-6. Finally, make sure you already have ACF installed. If you do, you can now activate the 3five ACF Patterns plugin from 
+- Finally, make sure you already have ACF installed. If you do, you can now activate the 3five ACF Patterns plugin from 
     the WordPress Dashboard or WP-CLI. 
     
 # How To Use Patterns
