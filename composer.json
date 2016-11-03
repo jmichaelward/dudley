@@ -8,9 +8,6 @@
             "email": "jeremy@3five.com"
         }
     ],
-    "config": {
-        "secure-http": false
-    },
     "autoload": {
         "psr-4": {
             "Tfive\\ACF\\": "src/"
@@ -23,7 +20,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "http://packages.3five.com"
+            "url": "https://packages.3five.com"
         }
     ]
 }
