@@ -36,7 +36,7 @@ and base CSS and JavaScript to provide each module with its core visual appearan
 
 ## Installation
 1. Clone this repo into the plugins directory of your WordPress installation `git clone git@bitbucket.org:3five/3five-acf-patterns.git` 
-2. Browse the [3five Patterns Library](https://bitbucket.org/account/user/3five/projects/PL) or the [Satis repository](http://packages.3five.com)for possible packages to include.
+2. Browse the [3five Patterns Library](https://bitbucket.org/account/user/3five/projects/PL) or the [Satis repository](https://packages.3five.com)for possible packages to include.
 3. Configure the plugin's `composer.json` file to require the packages you need. Here is an example configuration that uses the Social Media Accounts package:
     
 ```
@@ -50,9 +50,6 @@ and base CSS and JavaScript to provide each module with its core visual appearan
             "email": "jeremy@3five.com"
         }
     ],
-    "config": {
-        "secure-http": false
-    },
     "autoload": {
         "psr-4": {
             "Tfive\\ACF\\": "src/"
@@ -66,7 +63,7 @@ and base CSS and JavaScript to provide each module with its core visual appearan
     "repositories": [
         {
             "type": "composer",
-            "url": "http://packages.3five.com"
+            "url": "https://packages.3five.com"
         }
     ]
 }
