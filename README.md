@@ -72,10 +72,9 @@ and base CSS and JavaScript to provide each module with its core visual appearan
     file is properly formatted.
 - Next, run `composer install -a`. The `-a` flag generates an autoloader classmap that the plugin uses to identify the
     location of installed classes. This allows the plugin to automatically register which patterns you intend to use,
-    and set up the actions you'll need to pull them into your theme templates. 
-    
-    *Note: if you forgot to type the `-a` flag, you can repair the installation by running `composer dump-autoload --optimize`.
-    In fact, this command will need to be run anytime you make a change to your `composer.json` file.*
+    and set up the actions you'll need to pull them into your theme templates. *Note: if you forgot to type the `-a` flag, 
+    you can repair the installation by running `composer dump-autoload --optimize`. In fact, this command will need to be run 
+    anytime you make a change to your `composer.json` file.*
 - Finally, make sure you already have ACF installed. If you do, you can now activate the 3five ACF Patterns plugin from 
     the WordPress Dashboard or WP-CLI. 
     
