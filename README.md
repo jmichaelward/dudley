@@ -13,7 +13,7 @@ In the agency world, clients hire companies like 3five to develop fully-custom
 themes for their website. Designers create mockups, developers build these mockups
 out to spec, and before long, the site is live. What we sometimes fail to recognize in
 the process is that, although the theme is custom, many of the components that comprise
-it are a reimaging of a component that was developed in a previous project.
+it are a reimagining of a component that was developed in a previous project.
 
 Web users have come to expect certain kinds of functionality on a site and, as a 
 result, a variety of design patterns have emerged. Agencies like ours have a tendency to 
