@@ -9,21 +9,16 @@
 namespace Tfive\ACF;
 
 /**
- * Class ACFPatterns
- * @package ACFPatterns
+ * Class Patterns
+ * @package Tfive\ACF
  */
 final class Patterns {
 	/**
-	 * @var $acf
+	 * Advanced Custom Fields patterns class.
+	 *
+	 * @var $acf ACF
 	 */
 	public $acf;
-
-	/**
-	 * Path to the acf-json directory.
-	 *
-	 * @var string
-	 */
-	public $acf_json_path;
 
 	/**
 	 * @var $notifier AdminNotifier
@@ -40,74 +35,38 @@ final class Patterns {
 			return;
 		}
 
+		// Load dependencies.
 		require_once $autoload_file;
-
-		$this->acf_json_path = plugin_dir_path( __FILE__ ) . '/acf-json';
-
-		$this->define_constants();
-
-		// Set ACF save and load paths
-		add_filter( 'acf/settings/save_json', array( $this, 'acf_save_path' ) );
-		add_filter( 'acf/settings/load_json', array( $this, 'acf_load_path' ) );
-
-		add_action( 'init', array( $this, 'check_requirements' ) );
+		require_once 'functions.php';
 	}
 
 	/**
-	 * Run on plugin activation.
+	 * Register plugin hooks.
 	 */
-	public function activate() {
-		if ( ! class_exists( 'acf' ) ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-		}
+	public function hooks() {
+		// Setup the plugin.
+		add_action( 'init', array( $this, 'run' ) );
 
-		$this->copy_acf_field_groups();
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 	}
 
 	/**
-	 * Run on plugin deactivation.
+	 * Setup ACF patterns and register hooks.
 	 */
-	public function deactivate() {
-	}
-
-	private function define_constants() {
-		if ( ! defined( 'PLUGIN_ROOT' ) ) {
-			define( 'PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
-		}
-	}
-
-	/**
-	 *
-	 */
-	public function check_requirements() {
-		include_once plugin_dir_path( __FILE__ ) . '/src/AdminNotifier.php';
+	public function run() {
+		include_once plugin_dir_path( __FILE__ ) . 'src/AdminNotifier.php';
 		$this->notifier = new AdminNotifier();
 
 		if ( ! class_exists( 'acf' ) ) {
 			$this->notifier->missing_acf_requirement();
 		}
 
-		$this->locate_patterns();
-	}
+		$this->load_acf_patterns();
 
-	/**
-	 * @return string Set the ACF save path for new custom fields.
-	 */
-	public function acf_save_path() {
-		return $this->acf_json_path;
-	}
-
-	/**
-	 * @param $paths
-	 *
-	 * @return array
-	 */
-	public function acf_load_path( $paths ) {
-		unset( $paths[0] );
-
-		$paths[] = $this->acf_json_path;
-
-		return $paths;
+		if ( $this->acf ) {
+			$this->acf->hooks();
+		}
 	}
 
 	/**
@@ -115,30 +74,42 @@ final class Patterns {
 	 *
 	 * @return bool
 	 */
-	public function locate_patterns() {
-		$patterns = ( include plugin_dir_path( __FILE__ ) . 'vendor/composer/autoload_classmap.php' );
+	public function load_acf_patterns() {
+		$pattern_classes = ( include plugin_dir_path( __FILE__ ) . 'vendor/composer/autoload_classmap.php' );
 
-		if ( ! $patterns ) {
+		if ( ! $pattern_classes ) {
 			$this->notifier->missing_autoload_classmap();
 
 			return false;
 		}
 
-		$acf_patterns = array_filter( array_map( function( $pattern_class ) {
-			// Check for patterns that also have a set action name so we can register them.
-			if ( strpos( $pattern_class, '\\Pattern\\' ) && property_exists( $pattern_class, 'action_name' ) ) {
-				// Make sure we're defining actions for our patterns.
-				if ( empty( $pattern_class::$action_name ) ) {
-					throw new \LogicException( 'No action defined for ' . $pattern_class );
-				}
-
-				return $pattern_class;
-			}
-		}, array_keys( $patterns ) ) );
-
-		$this->acf = new ACF( $acf_patterns );
+		$this->acf = new ACF( $this->get_patterns( $pattern_classes ) );
 
 		return true;
+	}
+
+	/**
+	 * Filter through the set of 3five ACF Patterns classes and return those with registered actions.
+	 *
+	 * @param array $patterns
+	 *
+	 * @return array
+	 */
+	private function get_patterns( array $patterns ) {
+		return array_filter( array_map( function( $pattern_class ) {
+			// Check for patterns that also have a set action name so we can register them.
+			if ( ! ( strpos( $pattern_class, '\\Pattern\\' ) && property_exists( $pattern_class, 'action_name' ) ) ) {
+				return false;
+			}
+
+			// Return the pattern if it has an associated action.
+			if ( $pattern_class::$action_name ) {
+				return $pattern_class;
+			}
+
+			// All patterns must have the $action_name property. Something went wrong.
+			throw new \LogicException( 'No action defined for ' . $pattern_class );
+		}, array_keys( $patterns ) ) );
 	}
 
 	/**
@@ -192,9 +163,24 @@ final class Patterns {
 			}
 		}
 	}
+
+	/**
+	 * Run on plugin activation.
+	 */
+	public function activate() {
+		if ( ! class_exists( 'acf' ) ) {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+		}
+
+		$this->copy_acf_field_groups();
+	}
+
+	/**
+	 * Run on plugin deactivation.
+	 */
+	public function deactivate() {
+	}
 }
 
 $plugin = new Patterns();
-
-register_activation_hook( __FILE__, array( $plugin, 'activate' ) );
-register_deactivation_hook( __FILE__, array( $plugin, 'deactivate' ) );
+$plugin->hooks();
