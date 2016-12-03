@@ -45,7 +45,7 @@ final class Patterns {
 	 */
 	public function hooks() {
 		// Setup the plugin.
-		add_action( 'init', array( $this, 'run' ) );
+		add_action( 'plugins_loaded', [ $this, 'run' ] );
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
