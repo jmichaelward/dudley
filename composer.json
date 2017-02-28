@@ -1,6 +1,6 @@
 {
-    "name": "3five/3five-acf-patterns",
-    "description": "A WordPress plugin framework for installing reusable site theme modules.",
+    "name": "3five/3five-patterns",
+    "description": "A WordPress plugin framework for developing custom modules powered by meta fields.",
     "type": "project",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "acfpatterns/acfpatterns": "*"
+        "3five-patterns/3five-patterns": "*"
     },
     "repositories": [
         {
