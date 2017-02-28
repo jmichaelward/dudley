@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Tfive\\ACF\\": "src/"
+            "Tfive\\Patterns\\": "src/"
         }
     },
     "minimum-stability": "dev",

@@ -1,5 +1,5 @@
 <?php
-namespace Tfive\ACF;
+namespace Tfive\Patterns;
 
 /**
  * Some namespaced helper functions for the plugin, to minimize use of global constants.

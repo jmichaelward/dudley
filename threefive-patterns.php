@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name: 3five ACF Patterns
- * Description: Store and render modular ACF content
+ * Plugin Name: 3five Patterns
+ * Description: Store and render reusable content modules.
  * Plugin URI: http://3five.com
  * Author: Jeremy Ward, 3five
  * Author URI: http://3five.com
  */
-namespace Tfive\ACF;
+namespace Tfive\Patterns;
 
 /**
  * Class Patterns
- * @package Tfive\ACF
+ * @package Tfive\Patterns
  */
 final class Patterns {
 	/**
