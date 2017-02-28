@@ -113,20 +113,20 @@ final class Patterns {
 	}
 
 	/**
-	 * Scan the vendor/acfpatterns/ directory for ACF field group JSON files and copy them into ./acf-json/ if
+	 * Scan the vendor/3five-patterns/ directory for ACF field group JSON files and copy them into ./acf-json/ if
 	 * they don't already exist (we don't want to overwrite anything that's already there).
 	 *
 	 * TODO: Create a user interaction that allows devs to do this from the Dashboard. Currently runs on activation
 	 * only.
 	 */
 	private function copy_acf_field_groups() {
-		if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns' ) ) {
+		if ( ! file_exists( plugin_dir_path( __FILE__ ) . 'vendor/3five-patterns' ) ) {
 			return;
 		}
 
 		// This section derived from http://php.net/manual/en/class.recursivedirectoryiterator.php#114504
 		$directory = new \RecursiveDirectoryIterator(
-			plugin_dir_path( __FILE__ ) . 'vendor/acfpatterns/',
+			plugin_dir_path( __FILE__ ) . 'vendor/3five-patterns/',
 			\FilesystemIterator::FOLLOW_SYMLINKS
 		);
 
@@ -138,7 +138,7 @@ final class Patterns {
 
 			if ( $current->isDir() ) {
 				// Only recurse into intended subdirectories.
-				return $current->getFilename() !== 'acfpatterns';
+				return $current->getFilename() !== '3five-patterns';
 			}
 
 			// Get all of the ACF JSON files
