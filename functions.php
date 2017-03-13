@@ -11,5 +11,5 @@ namespace Tfive\Patterns;
  * @return string
  */
 function plugin_root() {
-	return plugin_dir_path( __FILE__ );
+	return trailingslashit( plugin_dir_path( __FILE__ ) );
 }

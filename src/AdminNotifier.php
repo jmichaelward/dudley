@@ -19,8 +19,6 @@ class AdminNotifier {
 				)
 			);
 		} );
-
-		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
 
 	/**
