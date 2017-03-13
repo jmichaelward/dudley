@@ -1,5 +1,6 @@
 /vendor/
 /acf-json/*
+!/acf-json/index.php
 
 # Normally we'd commit this, but our particular use case is unique.
 composer.lock
