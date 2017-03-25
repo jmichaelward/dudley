@@ -20,6 +20,16 @@ final class Patterns {
 	private $notifier;
 
 	/**
+	 * @var array $patterns
+	 */
+	private $patterns;
+
+	public function __construct() {
+		require 'AdminNotifier.php';
+		$this->notifier = new AdminNotifier();
+	}
+
+	/**
 	 * Run the plugin and initialize hooks.
 	 */
 	public function run() {
@@ -31,17 +41,55 @@ final class Patterns {
 	 * Setup ACF patterns and register hooks.
 	 */
 	public function init() {
-		include_once 'AdminNotifier.php';
-		$this->notifier = new AdminNotifier();
-
 		if ( ! class_exists( 'acf' ) ) {
 			$this->notifier->missing_acf_requirement();
 		}
 
-		$this->load_patterns();
+		$this->patterns = $this->load_patterns();
+		$this->register_actions();
+
+		$this->acf = new ACF( $this );
 
 		if ( $this->acf ) {
 			$this->acf->hooks();
+		}
+	}
+
+	/**
+	 * Enable access to private class properties that are needed within the plugin.
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function __get( $field ) {
+		switch ( $field ) {
+			case 'patterns':
+				return $this->$field;
+			default:
+				throw new \Exception( 'Access denied to property in ' . __CLASS__ . ', or property does not exist.' );
+		}
+	}
+
+	/**
+	 * Bootstrap modules and assign an action to each component for use in templates.
+	 */
+	private function register_actions() {
+		// Add actions for each class.
+		foreach ( $this->patterns as $class_name ) {
+			/**
+			 * The ActionTrait of an AbstractPattern. Dynamically registers actions for use in templates based on the
+			 * meta field type and registered action name for the pattern.
+			 *
+			 * @var $class_name ActionTrait
+			 */
+			if ( $class_name::$meta_type ) {
+				add_action( 'tf_' . $class_name::$meta_type . '_' . $class_name::$action_name, [
+					$class_name,
+					'render_view',
+				], 10, 1 );
+			}
 		}
 	}
 
@@ -55,7 +103,7 @@ final class Patterns {
 			$this->notifier->missing_autoload_classmap();
 		}
 
-		$this->acf = new ACF( $this->get_patterns( $pattern_classes ) );
+		return $this->get_patterns( $pattern_classes );
 	}
 
 	/**
@@ -83,65 +131,16 @@ final class Patterns {
 	}
 
 	/**
-	 * Scan the vendor/3five-patterns/ directory for ACF field group JSON files and copy them into ./acf-json/ if
-	 * they don't already exist (we don't want to overwrite anything that's already there).
-	 *
-	 * TODO: Create a user interaction that allows devs to do this from the Dashboard. Currently runs on activation only.
-	 */
-	private function copy_acf_field_groups() {
-		if ( ! file_exists( plugin_root() . 'vendor/3five-patterns' ) ) {
-			return;
-		}
-
-		// This section derived from http://php.net/manual/en/class.recursivedirectoryiterator.php#114504
-		$directory = new \RecursiveDirectoryIterator(
-			plugin_root() . 'vendor/3five-patterns/',
-			\FilesystemIterator::FOLLOW_SYMLINKS
-		);
-
-		$filter = new \RecursiveCallbackFilterIterator( $directory, function( \SplFileInfo $current ) {
-			// Skip hidden files and directories.
-			if ( $current->getFilename()[0] === '.' ) {
-				return false;
-			}
-
-			if ( $current->isDir() ) {
-				// Only recurse into intended subdirectories.
-				return $current->getFilename() !== '3five-patterns';
-			}
-
-			// Get all of the ACF JSON files
-			$test = preg_match( '/group_[a-z0-9]*.json/', $current->getFilename() );
-
-			return $test;
-		} );
-
-		$iterator = new \RecursiveIteratorIterator( $filter );
-		$files    = [];
-
-		foreach ( $iterator as $info ) {
-			array_push( $files, $info->getPathname() );
-		}
-
-		foreach ( $files as $file ) {
-			$filename_parts = explode( '/', $file );
-			$filename       = array_pop( $filename_parts );
-
-			if ( ! file_exists( plugin_root() . 'acf-json/' . $filename ) ) {
-				copy( $file, plugin_root() . 'acf-json/' . $filename );
-			}
-		}
-	}
-
-	/**
 	 * Run on plugin activation.
 	 */
 	public function activate() {
 		if ( ! class_exists( 'acf' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
+
+			return;
 		}
 
-		$this->copy_acf_field_groups();
+		ACF::copy_acf_field_groups();
 	}
 
 	/**

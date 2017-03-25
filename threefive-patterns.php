@@ -12,6 +12,8 @@
 
 namespace Tfive\Patterns;
 
+use Tfive\Patterns\Pattern\Banner\CMB2Banner;
+
 $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 // This plugin requires a Composer autoloader. Exit if we don't have one.
