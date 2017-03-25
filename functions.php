@@ -1,5 +1,5 @@
 <?php
-namespace Tfive\ACF;
+namespace Tfive\Patterns;
 
 /**
  * Some namespaced helper functions for the plugin, to minimize use of global constants.
@@ -11,5 +11,5 @@ namespace Tfive\ACF;
  * @return string
  */
 function plugin_root() {
-	return plugin_dir_path( __FILE__ );
+	return trailingslashit( plugin_dir_path( __FILE__ ) );
 }

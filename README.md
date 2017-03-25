@@ -52,13 +52,13 @@ and base CSS and JavaScript to provide each module with its core visual appearan
     ],
     "autoload": {
         "psr-4": {
-            "Tfive\\ACF\\": "src/"
+            "Tfive\\Patterns\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "require": {
-        "acfpatterns/acfpatterns": "*",
-        "acfpatterns/social-media-accounts: "*"
+        "3five-patterns/3five-patterns": "*",
+        "3five-patterns/social-media-accounts: "*"
     },
     "repositories": [
         {
@@ -107,7 +107,7 @@ _Note:_ If you follow these steps above and don't see any output, confirm the fo
 4. You've called the action in the correct template.
 
 ## Location of Patterns files
-From the plugin root, files for individual patterns are stored under `/vendor/acfpatterns`. `/vendor/acfpatterns/acfpatterns`
+From the plugin root, files for individual patterns are stored under `/vendor/3five-patterns`. `/vendor/3five-patterns/3five-patterns`
 contains all of the base files needed to power each package; every other package will live in a directory with its name. 
 Each package contains a JSON file with its default ACF data structure, an `assets/` directory for its SCSS and JavaScript
 files, a `views/` directory for its template markup, and a `src/` directory for its logic.
@@ -118,7 +118,7 @@ files, a `views/` directory for its template markup, and a `src/` directory for 
 ## Classes/Data Model
 This plugin supports the ability for devs to write their own custom ACF modules that follow the conventions established 
 by the ACF Patterns packages. PHP Models for each new module should be saved in their own directory under `src/Pattern`, 
-and classes should have the `Tfive\ACF\Pattern\[ClassName]` namespace.
+and classes should have the `Tfive\Patterns\Pattern\[ClassName]` namespace.
 
 To function, model classes must have a public static property called `$action_name`, the name of which is typically a
 lowercase and underscored version of the class name. In the example, this might be `mega_menu`. The action name 
@@ -151,12 +151,12 @@ For example templates, please refer to the `views/` directory stored in each pac
 ### Example:
 Bjorn wants to create a custom module called `MegaMenu`. He navigates to `src/Pattern` and creates a directory called
 `MegaMenu`. Inside that directory, he creates a new file named `MegaMenu.php` and begins writing his class, also 
-named `MegaMenu`. That class has the namespace `Tfive\ACF\Pattern\MegaMenu`, and `extends` one of the base package's 
+named `MegaMenu`. That class has the namespace `Tfive\Patterns\Pattern\MegaMenu`, and `extends` one of the base package's
 abstract classes, depending on whether that module is standalone, or if it contains things like repeating elements
 (e.g., a standalone module that just has a couple of data fields would extend `AbstractPattern`, whereas a module that 
 contains an ACF repeater would extend `AbstractRepeater`, and build an array of the Repeated Item's objects. In this 
 particular example, `MegaMenu` might have menu items, so it would extend `AbstractRepeater` and Bjorn would create another
-class called `MegaMenu` item with the same `Tfive\ACF\Pattern\MegaMenu` namespace, but which would extend `AbstractPattern`. 
+class called `MegaMenu` item with the same `Tfive\Patterns\Pattern\MegaMenu` namespace, but which would extend `AbstractPattern`.
 Please refer to the 3five Wiki for more details).
 
 ## Importing SCSS and JavaScript

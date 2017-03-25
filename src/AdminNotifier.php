@@ -1,9 +1,9 @@
 <?php
-namespace Tfive\ACF;
+namespace Tfive\Patterns;
 
 /**
  * Class AdminNotifier
- * @package Tfive\ACF
+ * @package Tfive\Patterns
  */
 class AdminNotifier {
 	/**
@@ -19,8 +19,6 @@ class AdminNotifier {
 				)
 			);
 		} );
-
-		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
 
 	/**
