@@ -3,8 +3,8 @@
  * Plugin Name: 3five Patterns
  * Description: Store and render reusable content modules.
  * Plugin URI: http://3five.com
- * Author: Jeremy Ward, 3five
- * Author URI: http://3five.com
+ * Author: Jeremy Ward & 3five, Inc.
+ * Author URI: http://jmichaelward.com
  * textdomain: tf_patterns
  *
  * @package Tfive\Patterns
