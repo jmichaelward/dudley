@@ -1,11 +1,15 @@
 {
-    "name": "3five/3five-patterns",
+    "name": "3five-patterns/3five-patterns",
     "description": "A WordPress plugin framework for developing custom modules powered by meta fields.",
     "type": "project",
     "authors": [
         {
             "name": "Jeremy Ward",
-            "email": "jeremy@3five.com"
+            "email": "jeremy@jmichaelward.com"
+        },
+        {
+            "name": "3five, Inc.",
+            "email": "wordpress@3five.com"
         }
     ],
     "autoload": {
@@ -15,12 +19,6 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "3five-patterns/3five-patterns": "*"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.3five.com"
-        }
-    ]
+        "3five-patterns/base-package": "*"
+    }
 }
