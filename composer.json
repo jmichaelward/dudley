@@ -19,9 +19,6 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "3five-patterns/base-package": "*",
-        "3five-patterns/banner": "*",
-        "3five-patterns/feature-repeater": "*",
-        "3five-patterns/featured-links": "*"
+        "3five-patterns/base-package": "*"
     }
 }
