@@ -1,9 +1,9 @@
 <?php
-namespace Tfive\Patterns;
+namespace Dudley\Patterns;
 
 /**
  * Class AdminNotifier
- * @package Tfive\Patterns
+ * @package Dudley\Patterns
  */
 class AdminNotifier {
 	/**
@@ -13,8 +13,8 @@ class AdminNotifier {
 		add_action( 'admin_notices', function() {
 			$this->print_error_notice(
 				__(
-					'3five ACF Patterns requires Advanced Custom Fields Pro v5.0 or higher. Please activate ACF or
-					deactivate the 3five ACF Patterns plugin to dismiss this message.',
+					'Dudley requires Advanced Custom Fields Pro v5.0 or higher. Please activate ACF or
+					deactivate the Dudley plugin to dismiss this message.',
 					'tfacf'
 				)
 			);
@@ -29,7 +29,7 @@ class AdminNotifier {
 		add_action( 'admin_notices', function() {
 			$this->print_error_notice(
 				__(
-					'3five ACF Patterns is installed, but patterns cannot be located. In the terminal, from the plugin\'s 
+					'Dudley is installed, but patterns cannot be located. In the terminal, from the plugin\'s 
 				root directory, please run "composer update -a" to generate a classmap and dismiss this message.',
 					'tf_acf'
 				)

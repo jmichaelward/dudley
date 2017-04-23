@@ -1,5 +1,5 @@
 {
-    "name": "3five-patterns/3five-patterns",
+    "name": "dudley/dudley",
     "description": "A WordPress plugin framework for developing custom modules powered by meta fields.",
     "type": "project",
     "authors": [
@@ -14,11 +14,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Tfive\\Patterns\\": "src/"
+            "Dudley\\Patterns\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "require": {
-        "3five-patterns/base-package": "*"
+        "dudley/base-package": "*"
     }
 }

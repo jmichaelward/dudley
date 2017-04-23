@@ -1,5 +1,5 @@
 <?php
-namespace Tfive\Patterns;
+namespace Dudley\Patterns;
 
 /**
  * Some namespaced helper functions for the plugin, to minimize use of global constants.

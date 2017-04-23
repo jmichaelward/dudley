@@ -1,10 +1,10 @@
 <?php
-namespace Tfive\Patterns;
+namespace Dudley\Patterns;
 
 /**
  * Class Patterns
  *
- * @package Tfive\Patterns
+ * @package Dudley\Patterns
  */
 final class Patterns {
 	/**
@@ -146,7 +146,7 @@ final class Patterns {
 	}
 
 	/**
-	 * Filter through the set of 3five ACF Patterns classes and return those with registered actions.
+	 * Filter through the set of Dudley classes and return those with registered actions.
 	 *
 	 * @param array $patterns
 	 *

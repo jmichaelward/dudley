@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name: 3five Patterns
+ * Plugin Name: Dudley
  * Description: Store and render reusable content modules.
- * Plugin URI: http://3five.com
- * Author: Jeremy Ward & 3five, Inc.
+ * Plugin URI: http://jmichaelward.com
+ * Author: Jeremy Ward
  * Author URI: http://jmichaelward.com
- * textdomain: tf_patterns
+ * textdomain: dudley
  *
- * @package Tfive\Patterns
+ * @package Dudley\Patterns
  */
 
-namespace Tfive\Patterns;
+namespace Dudley\Patterns;
 
 $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
