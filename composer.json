@@ -14,11 +14,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dudley\\Patterns\\": "src/"
+            "Dudley\\Patterns\\": "src/",
+            "Dudley\\Patterns\\Pattern\\": "patterns/"
         }
     },
     "minimum-stability": "dev",
     "require": {
-        "dudley/base-package": "*"
     }
 }

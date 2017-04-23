@@ -15,7 +15,7 @@ class AdminNotifier {
 				__(
 					'Dudley requires Advanced Custom Fields Pro v5.0 or higher. Please activate ACF or
 					deactivate the Dudley plugin to dismiss this message.',
-					'tfacf'
+					'dudley'
 				)
 			);
 		} );

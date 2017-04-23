@@ -1,10 +1,12 @@
 <?php
 namespace Dudley\Patterns;
 
+use Dudley\Patterns\MetaType\ACF;
+
 /**
  * Class Patterns
  *
- * @package Tfive\Patterns
+ * @package Dudley\Patterns
  */
 final class Patterns {
 	/**
@@ -25,7 +27,6 @@ final class Patterns {
 	private $patterns;
 
 	public function __construct() {
-		require 'AdminNotifier.php';
 		$this->notifier = new AdminNotifier();
 	}
 
@@ -33,6 +34,10 @@ final class Patterns {
 	 * Run the plugin and initialize hooks.
 	 */
 	public function run() {
+		$this->hooks();
+	}
+
+	public function hooks() {
 		// Setup the plugin.
 		add_action( 'plugins_loaded', [ $this, 'init' ] );
 	}
@@ -85,7 +90,7 @@ final class Patterns {
 			 * @var $class_name ActionTrait
 			 */
 			if ( $class_name::$meta_type ) {
-				add_action( 'tf_' . $class_name::$meta_type . '_' . $class_name::$action_name, [
+				add_action( 'dudley_' . $class_name::$meta_type . '_' . $class_name::$action_name, [
 					$class_name,
 					'render_view',
 				], 10, 1 );
@@ -146,7 +151,7 @@ final class Patterns {
 	}
 
 	/**
-	 * Filter through the set of 3five ACF Patterns classes and return those with registered actions.
+	 * Filter through the set of Dudley Patterns classes and return those with registered actions.
 	 *
 	 * @param array $patterns
 	 *
