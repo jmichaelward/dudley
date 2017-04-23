@@ -96,7 +96,7 @@ you can first sync the field group with the WordPress database, then make change
 Dashboard.
 
 Once your changes have been saved, navigate to the options page and enter in some sample data. Finally, in the 
-template where you need to call it, type in `<?php do_action( 'tf_acf_social_media_accounts ); ?>`. You should now see
+template where you need to call it, type in `<?php do_action( 'dudley_acf_social_media_accounts ); ?>`. You should now see
 links with text of the names of the networks, and the URLs should direct to the addresses you provided. All that's
 left now is to style the module!
 
@@ -105,7 +105,7 @@ _Note:_ If you follow these steps above and don't see any output, confirm the fo
 2. All of the required fields have been entered into the module.
 3. You've called the correct action (these should be documented in the repo for each package, but are also viewable
     in the main PHP class. Each module has a static property called `$action_name` that is used to build the name of 
-    the action. All actions are prefixed with `tf_acf_`).
+    the action. All actions are prefixed with `dudley_`).
 4. You've called the action in the correct template.
 
 ## Location of Patterns files
@@ -124,7 +124,7 @@ and classes should follow the namespace convention of `Dudley\Patterns\Pattern\[
 
 To function, model classes must have a public static property called `$action_name`, the name of which is typically a
 lowercase and underscored version of the class name. In the example, this might be `mega_menu`. The action name 
-determines the final name of the action that gets used in the theme templates (e.g., `<?php do_action( 'tf_acf_mega_menu' ); ?>`),
+determines the final name of the action that gets used in the theme templates (e.g., `<?php do_action( 'dudley_acf_mega_menu' ); ?>`),
 and also what the name of the template view file should be (`mega-menu.php`).
 
 ## ACF Field Groups

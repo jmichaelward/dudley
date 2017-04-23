@@ -4,7 +4,7 @@ namespace Dudley\Patterns;
 /**
  * Class Patterns
  *
- * @package Dudley\Patterns
+ * @package Tfive\Patterns
  */
 final class Patterns {
 	/**
@@ -139,14 +139,14 @@ final class Patterns {
 	 */
 	public function load_patterns() {
 		if ( ! $pattern_classes = $this->get_patterns_classes() ) {
-			$this->notifier->missing_autoload_classmap();
+			$this->notifier->patterns_not_found();
 		}
 
 		return $this->filter_classes_for_patterns( $pattern_classes );
 	}
 
 	/**
-	 * Filter through the set of Dudley classes and return those with registered actions.
+	 * Filter through the set of 3five ACF Patterns classes and return those with registered actions.
 	 *
 	 * @param array $patterns
 	 *

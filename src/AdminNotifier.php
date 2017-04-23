@@ -22,16 +22,14 @@ class AdminNotifier {
 	}
 
 	/**
-	 * Throw a notice if the plugin doensn't have a Composer autoload_classmap, because otherwise we can't identify
-	 * which patterns are available (and consequently, no actions get registered with WordPress).
+	 * Throw a notice if Dudley cannot find any installed patterns.
 	 */
-	public function missing_autoload_classmap() {
+	public function patterns_not_found() {
 		add_action( 'admin_notices', function() {
 			$this->print_error_notice(
 				__(
-					'Dudley is installed, but patterns cannot be located. In the terminal, from the plugin\'s 
-				root directory, please run "composer update -a" to generate a classmap and dismiss this message.',
-					'tf_acf'
+					'Dudley is installed, but patterns cannot be located. You can install them via Composer or write your own!',
+					'dudley'
 				)
 			);
 		} );
