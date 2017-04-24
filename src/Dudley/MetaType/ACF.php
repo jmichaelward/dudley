@@ -44,7 +44,8 @@ class ACF extends AbstractMetaType {
 	 * Set up plugin hooks
 	 */
 	public function hooks() {
-		add_action( 'init', [ $this, 'add_options_page' ] );
+		// Not a hook, per se, but we don't want this to run in the constructor.
+		$this->add_options_page();
 
 		if ( ! class_exists( 'acf' ) ) {
 			add_action( 'admin_notices', function() {
@@ -74,6 +75,10 @@ class ACF extends AbstractMetaType {
 	 * @return bool
 	 */
 	private function has_options() {
+		if ( ! is_array( $this->plugin->patterns ) ) {
+			return false;
+		}
+
 		return array_filter( $this->plugin->patterns, function ( $pattern ) {
 			return property_exists( $pattern, 'has_global_options' )
 			       && $pattern::$has_global_options
