@@ -7,21 +7,6 @@ namespace Dudley\Admin;
  */
 class Notifier {
 	/**
-	 *
-	 */
-	public function missing_acf_requirement() {
-		add_action( 'admin_notices', function() {
-			$this->print_error_notice(
-				__(
-					'Dudley requires Advanced Custom Fields Pro v5.0 or higher. Please activate ACF or
-					deactivate the Dudley plugin to dismiss this message.',
-					'dudley'
-				)
-			);
-		} );
-	}
-
-	/**
 	 * Throw a notice if Dudley cannot find any installed patterns.
 	 */
 	public function patterns_not_found() {

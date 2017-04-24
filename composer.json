@@ -19,5 +19,6 @@
         },
         "files": ["src/Dudley/helpers.php"]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require": {}
 }

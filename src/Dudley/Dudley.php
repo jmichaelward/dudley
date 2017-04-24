@@ -1,7 +1,6 @@
 <?php
 namespace Dudley;
 
-use Dudley\MetaType\ACF;
 use Dudley\Admin\Notifier;
 use Dudley\Patterns\Traits\ActionTrait;
 
@@ -15,11 +14,11 @@ use Dudley\Patterns\Traits\ActionTrait;
  */
 final class Dudley {
 	/**
-	 * Advanced Custom Fields patterns class.
+	 * Dudley configuration class.
 	 *
-	 * @var $acf ACF
+	 * @var $config Config
 	 */
-	public $acf;
+	public $config;
 
 	/**
 	 * Admin notifier class.
@@ -41,6 +40,7 @@ final class Dudley {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		$this->config   = new Config( $this );
 		$this->notifier = new Notifier();
 	}
 
@@ -51,6 +51,7 @@ final class Dudley {
 	 */
 	public function run() {
 		$this->hooks();
+		$this->config->meta_type->hooks();
 	}
 
 	/**
@@ -60,8 +61,8 @@ final class Dudley {
 	 */
 	public function hooks() {
 		// Register activation and deactivation hooks.
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
-		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+		register_activation_hook( plugin_root() . '/dudley.php', [ $this, 'activate' ] );
+		register_deactivation_hook( plugin_root() . '/dudley.php', [ $this, 'deactivate' ] );
 
 		// Setup the plugin.
 		add_action( 'plugins_loaded', [ $this, 'init' ] );
@@ -73,18 +74,8 @@ final class Dudley {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		if ( ! class_exists( 'acf' ) ) {
-			$this->notifier->missing_acf_requirement();
-		}
-
 		$this->patterns = $this->load_patterns();
 		$this->register_actions();
-
-		$this->acf = new ACF( $this );
-
-		if ( $this->acf ) {
-			$this->acf->hooks();
-		}
 	}
 
 	/**
@@ -218,13 +209,10 @@ final class Dudley {
 	 * @since 1.0.0
 	 */
 	public function activate() {
-		if ( ! class_exists( 'acf' ) ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-
-			return;
+		if ( $this->config->meta_type ) {
+			$this->config->meta_type->setup();
+			$this->config->meta_type->hooks();
 		}
-
-		ACF::copy_acf_field_groups();
 	}
 
 	/**

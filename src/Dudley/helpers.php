@@ -11,8 +11,18 @@ namespace Dudley;
  * @return string
  */
 function plugin_root() {
+	return trailingslashit( WP_PLUGIN_DIR . '/' . plugin_dirname() );
+}
+
+/**
+ * Get the directory name of this plugin.
+ *
+ * @return string
+ */
+function plugin_dirname() {
 	$path = explode( '/', plugin_basename( __FILE__ ) );
-	return trailingslashit( WP_PLUGIN_DIR . '/' . $path[0] );
+
+	return $path[0];
 }
 
 /**
