@@ -21,11 +21,15 @@ final class Patterns {
 	public $acf;
 
 	/**
+	 * Admin notifier class.
+	 *
 	 * @var $notifier AdminNotifier
 	 */
 	private $notifier;
 
 	/**
+	 * Collection of found patterns.
+	 *
 	 * @var array $patterns
 	 */
 	private $patterns;
@@ -87,10 +91,10 @@ final class Patterns {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param $field
+	 * @param string $field The property to access.
 	 *
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws \Exception Not allowed to access property.
 	 */
 	public function __get( $field ) {
 		switch ( $field ) {
@@ -133,14 +137,13 @@ final class Patterns {
 	 * @since 1.0.0
 	 */
 	private function get_patterns_classes() {
-		$path = plugin_root();
 		$fqcns = []; // Fully qualified class namespace.
 
-		$allFiles = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
-		$phpFiles = new \RegexIterator($allFiles, '/\.php$/');
+		$all_files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( plugin_root() ) );
+		$php_files = new \RegexIterator( $all_files, '/\.php$/' );
 
-		foreach ( $phpFiles as $phpFile ) {
-			$content   = file_get_contents( $phpFile->getRealPath() );
+		foreach ( $php_files as $php_file ) {
+			$content   = file_get_contents( $php_file->getRealPath() ); // @codingStandardsIgnoreLine
 			$tokens    = token_get_all( $content );
 			$namespace = '';
 
@@ -150,7 +153,7 @@ final class Patterns {
 				}
 
 				if ( T_NAMESPACE === $tokens[ $index ][0] ) {
-					$index += 2; // Skip namespace keyword and whitespace
+					$index += 2; // Skip namespace keyword and whitespace.
 
 					while ( isset( $tokens[ $index ] ) && is_array( $tokens[ $index ] ) ) {
 						$namespace .= $tokens[ $index++ ][1];
@@ -158,7 +161,7 @@ final class Patterns {
 				}
 
 				if ( T_CLASS === $tokens[ $index ][0] ) {
-					$index   += 2; // Skip class keyword and whitespace
+					$index   += 2; // Skip class keyword and whitespace.
 					$fqcns[] = $namespace . '\\' . $tokens[ $index ][1];
 				}
 			}
@@ -173,7 +176,9 @@ final class Patterns {
 	 * @since 1.0.0
 	 */
 	public function load_patterns() {
-		if ( ! $pattern_classes = $this->get_patterns_classes() ) {
+		$pattern_classes = $this->get_patterns_classes();
+
+		if ( ! $pattern_classes ) {
 			$this->notifier->patterns_not_found();
 		}
 
@@ -185,7 +190,7 @@ final class Patterns {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $patterns
+	 * @param array $patterns Array of found classes in this plugin.
 	 *
 	 * @return array
 	 */
@@ -226,6 +231,5 @@ final class Patterns {
 	 *
 	 * @since 1.0.0
 	 */
-	public function deactivate() {
-	}
+	public function deactivate() {}
 }
