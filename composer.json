@@ -14,11 +14,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dudley\\Patterns\\": "src/",
+            "Dudley\\": "src/",
+            "Dudley\\Patterns\\": "src/Dudley/",
             "Dudley\\Patterns\\Pattern\\": "patterns/"
-        }
+        },
+        "files": ["src/helpers.php"]
     },
-    "minimum-stability": "dev",
-    "require": {
-    }
+    "minimum-stability": "dev"
 }
