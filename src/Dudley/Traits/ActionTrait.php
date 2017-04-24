@@ -22,7 +22,7 @@ trait ActionTrait {
 	public static $action_name;
 
 	/**
-	 * Returns the ation name.
+	 * Returns the action name.
 	 *
 	 * @return string
 	 */
