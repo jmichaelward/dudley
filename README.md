@@ -46,7 +46,7 @@ interactivity required by the module
 - Search for packages to install on [Packagist.org](https://packagist.org).
 All native Dudley packages are prefaced with `dudley`.
 - Configure Dudley's `composer.json` file to require the packages you need.
-Here is an example configuration that uses the Social Media Accounts package:
+Here is an example configuration that uses the Banner and Social Media Accounts packages:
     
 ```
 {
@@ -70,7 +70,7 @@ Here is an example configuration that uses the Social Media Accounts package:
     },
     "minimum-stability": "dev",
     "require": {
-        "dudley/base-package": "*",
+        "dudley/banner": "*",
         "dudley/social-media-accounts: "*"
     }
 }
