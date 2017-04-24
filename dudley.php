@@ -17,7 +17,7 @@ namespace Dudley;
 $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 if ( ! file_exists( $autoload ) ) {
-	require_once plugin_dir_path( __FILE__ ) . 'src/helpers.php';
+	require_once plugin_dir_path( __FILE__ ) . 'src/Dudley/helpers.php';
 
 	add_action( 'admin_notices', '\Dudley\notify_no_autoloader' );
 	return;
