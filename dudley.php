@@ -13,9 +13,9 @@
 
 namespace Dudley\Patterns;
 
+// This plugin requires a Composer autoloader. Exit if we don't have one.
 $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-// This plugin requires a Composer autoloader. Exit if we don't have one.
 if ( ! file_exists( $autoload ) ) {
 	return;
 }
@@ -26,7 +26,3 @@ require_once $autoload;
 // Initialize.
 $plugin = new Patterns();
 $plugin->run();
-
-// Register activation and deactivation hooks.
-register_activation_hook( __FILE__, [ $plugin, 'activate' ] );
-register_deactivation_hook( __FILE__, [ $plugin, 'deactivate' ] );

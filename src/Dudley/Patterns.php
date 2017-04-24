@@ -7,6 +7,9 @@ use function Dudley\plugin_root;
 /**
  * Class Patterns
  *
+ * @author Jeremy Ward <jeremy@jmichaelward.com>
+ * @since 1.0.0
+ *
  * @package Dudley\Patterns
  */
 final class Patterns {
@@ -27,24 +30,42 @@ final class Patterns {
 	 */
 	private $patterns;
 
+	/**
+	 * Patterns constructor.
+	 *
+	 * @since 1.0.0
+	 */
 	public function __construct() {
 		$this->notifier = new AdminNotifier();
 	}
 
 	/**
 	 * Run the plugin and initialize hooks.
+	 *
+	 * @since 1.0.0
 	 */
 	public function run() {
 		$this->hooks();
 	}
 
+	/**
+	 * Register plugin hooks.
+	 *
+	 * @since 1.0.0
+	 */
 	public function hooks() {
+		// Register activation and deactivation hooks.
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+
 		// Setup the plugin.
 		add_action( 'plugins_loaded', [ $this, 'init' ] );
 	}
 
 	/**
 	 * Setup ACF patterns and register hooks.
+	 *
+	 * @since 1.0.0
 	 */
 	public function init() {
 		if ( ! class_exists( 'acf' ) ) {
@@ -64,6 +85,8 @@ final class Patterns {
 	/**
 	 * Enable access to private class properties that are needed within the plugin.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param $field
 	 *
 	 * @return mixed
@@ -80,6 +103,8 @@ final class Patterns {
 
 	/**
 	 * Bootstrap modules and assign an action to each component for use in templates.
+	 *
+	 * @since 1.0.0
 	 */
 	private function register_actions() {
 		// Add actions for each class.
@@ -104,6 +129,8 @@ final class Patterns {
 	 * Ripped from here: http://stackoverflow.com/questions/22761554/php-get-all-class-names-inside-a-particular-namespace
 	 *
 	 * Thanks, Internet!
+	 *
+	 * @since 1.0.0
 	 */
 	private function get_patterns_classes() {
 		$path = plugin_root();
@@ -142,6 +169,8 @@ final class Patterns {
 
 	/**
 	 * Process the array in the Composer autoload classmap in order to automatically include our selected patterns.
+	 *
+	 * @since 1.0.0
 	 */
 	public function load_patterns() {
 		if ( ! $pattern_classes = $this->get_patterns_classes() ) {
@@ -153,6 +182,8 @@ final class Patterns {
 
 	/**
 	 * Filter through the set of Dudley Patterns classes and return those with registered actions.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array $patterns
 	 *
@@ -177,6 +208,8 @@ final class Patterns {
 
 	/**
 	 * Run on plugin activation.
+	 *
+	 * @since 1.0.0
 	 */
 	public function activate() {
 		if ( ! class_exists( 'acf' ) ) {
@@ -190,6 +223,8 @@ final class Patterns {
 
 	/**
 	 * Run on plugin deactivation.
+	 *
+	 * @since 1.0.0
 	 */
 	public function deactivate() {
 	}
