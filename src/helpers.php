@@ -1,5 +1,5 @@
 <?php
-namespace Dudley\Patterns;
+namespace Dudley;
 
 /**
  * Some namespaced helper functions for the plugin, to minimize use of global constants.
@@ -11,5 +11,6 @@ namespace Dudley\Patterns;
  * @return string
  */
 function plugin_root() {
-	return trailingslashit( plugin_dir_path( __FILE__ ) );
+	$path = explode( '/', plugin_basename( __FILE__ ) );
+	return trailingslashit( WP_PLUGIN_DIR . '/' . $path[0] );
 }

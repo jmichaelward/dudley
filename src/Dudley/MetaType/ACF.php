@@ -2,7 +2,7 @@
 namespace Dudley\Patterns\MetaType;
 
 use Dudley\Patterns\Patterns;
-use function Dudley\Patterns\plugin_root;
+use function Dudley\plugin_root;
 
 /**
  * Class ACF

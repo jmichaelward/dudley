@@ -22,7 +22,6 @@ if ( ! file_exists( $autoload ) ) {
 
 // Load plugin dependencies.
 require_once $autoload;
-require_once 'functions.php';
 
 // Initialize.
 $plugin = new Patterns();

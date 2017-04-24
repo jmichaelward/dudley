@@ -3,6 +3,7 @@
 namespace Dudley\Patterns\Template;
 
 use Dudley\Patterns\Abstracts\AbstractPattern;
+use function Dudley\plugin_root;
 
 /**
  * Class Template
@@ -79,8 +80,8 @@ class Template {
 		$filepaths   = apply_filters( 'dudley_patterns_file_paths', [
 			'theme'            => trailingslashit( get_stylesheet_directory() )
 			                      . trailingslashit( apply_filters( 'dudley_pattern_template_override_dir', 'dudley-modules' ) ),
-			'custom_in_plugin' => trailingslashit( \Dudley\Patterns\plugin_root() . 'views' ),
-			'composer_package' => trailingslashit( \Dudley\Patterns\plugin_root() . "vendor/dudley/$package_name/views" ),
+			'custom_in_plugin' => trailingslashit( plugin_root() . 'views' ),
+			'composer_package' => trailingslashit( plugin_root() . "vendor/dudley/$package_name/views" ),
 		] );
 
 		// Return the first available file path from the $file_paths array.
