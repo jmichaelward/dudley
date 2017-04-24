@@ -2,6 +2,7 @@
 namespace Dudley\Patterns;
 
 use Dudley\Patterns\MetaType\ACF;
+use Dudley\Patterns\Traits\ActionTrait;
 use function Dudley\plugin_root;
 
 /**
