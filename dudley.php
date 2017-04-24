@@ -13,10 +13,13 @@
 
 namespace Dudley\Patterns;
 
-// This plugin requires a Composer autoloader. Exit if we don't have one.
+// This plugin requires a Composer autoloader. Throw a notice and return if we don't have one.
 $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 if ( ! file_exists( $autoload ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'src/helpers.php';
+
+	add_action( 'admin_notices', '\Dudley\notify_no_autoloader' );
 	return;
 }
 
