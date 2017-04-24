@@ -134,8 +134,8 @@ class ACF extends AbstractMetaType {
 			$filename_parts = explode( '/', $file );
 			$filename       = array_pop( $filename_parts );
 
-			if ( ! file_exists( $json_path . $filename ) ) {
-				copy( $file, $json_path . $filename );
+			if ( ! file_exists( $json_path . '/' . $filename ) ) {
+				copy( $file, $json_path . '/' . $filename );
 			}
 		}
 	}
