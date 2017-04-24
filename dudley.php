@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Dudley
- * Description: Store and render reusable content modules.
+ * Description: A plugin framework for installing, customizing, and writing reusable content modules powered by meta fields.
  * Plugin URI: http://jmichaelward.com
  * Author: Jeremy Ward
  * Author URI: http://jmichaelward.com
