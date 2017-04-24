@@ -4,6 +4,9 @@ namespace Dudley\Patterns\Traits;
 /**
  * Class ActionTrait
  *
+ * @author Jeremy Ward <jeremy@jmichaelward.com>
+ * @since 1.0.0
+ *
  * @package Dudley\Patterns\Traits
  */
 trait ActionTrait {
@@ -23,6 +26,8 @@ trait ActionTrait {
 
 	/**
 	 * Returns the action name.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
