@@ -1,11 +1,11 @@
 <?php
-namespace Dudley\Patterns;
+namespace Dudley\Admin;
 
 /**
- * Class AdminNotifier
+ * Class Notifier
  * @package Dudley\Patterns
  */
-class AdminNotifier {
+class Notifier {
 	/**
 	 *
 	 */

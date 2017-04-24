@@ -1,7 +1,7 @@
 <?php
-namespace Dudley\Patterns\MetaType;
+namespace Dudley\MetaType;
 
-use Dudley\Patterns\Patterns;
+use Dudley\Dudley;
 use function Dudley\plugin_root;
 
 /**
@@ -13,7 +13,7 @@ class ACF {
 	/**
 	 * Patterns that can generate module output for use by a theme. Populate to configure.
 	 *
-	 * @var Patterns $plugin The main patterns plugin class.
+	 * @var Dudley $plugin The main patterns plugin class.
 	 */
 	private $plugin;
 
@@ -27,9 +27,9 @@ class ACF {
 	/**
 	 * ACF constructor.
 	 *
-	 * @param Patterns $plugin The main patterns plugin class.
+	 * @param Dudley $plugin The main patterns plugin class.
 	 */
-	public function __construct( Patterns $plugin ) {
+	public function __construct( Dudley $plugin ) {
 		$this->plugin    = $plugin;
 		$this->json_path = plugin_root() . 'acf-json';
 

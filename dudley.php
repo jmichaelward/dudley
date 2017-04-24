@@ -11,7 +11,7 @@
  * @package Dudley\Patterns
  */
 
-namespace Dudley\Patterns;
+namespace Dudley;
 
 // This plugin requires a Composer autoloader. Throw a notice and return if we don't have one.
 $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
@@ -27,5 +27,5 @@ if ( ! file_exists( $autoload ) ) {
 require_once $autoload;
 
 // Initialize.
-$plugin = new Patterns();
+$plugin = new Dudley();
 $plugin->run();

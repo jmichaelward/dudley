@@ -1,7 +1,7 @@
 <?php
 namespace Dudley\Patterns\Abstracts;
 
-use Dudley\Patterns\Template\Template;
+use Dudley\Template\Template;
 
 /**
  * Class AbstractFlexibleContent

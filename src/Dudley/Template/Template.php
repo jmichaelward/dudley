@@ -1,6 +1,6 @@
 <?php
 
-namespace Dudley\Patterns\Template;
+namespace Dudley\Template;
 
 use Dudley\Patterns\Abstracts\AbstractPattern;
 use function Dudley\plugin_root;

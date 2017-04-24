@@ -1,19 +1,19 @@
 <?php
-namespace Dudley\Patterns;
+namespace Dudley;
 
-use Dudley\Patterns\MetaType\ACF;
+use Dudley\MetaType\ACF;
+use Dudley\Admin\Notifier;
 use Dudley\Patterns\Traits\ActionTrait;
-use function Dudley\plugin_root;
 
 /**
- * Class Patterns
+ * Class Dudley
  *
  * @author Jeremy Ward <jeremy@jmichaelward.com>
  * @since 1.0.0
  *
  * @package Dudley\Patterns
  */
-final class Patterns {
+final class Dudley {
 	/**
 	 * Advanced Custom Fields patterns class.
 	 *
@@ -24,7 +24,7 @@ final class Patterns {
 	/**
 	 * Admin notifier class.
 	 *
-	 * @var $notifier AdminNotifier
+	 * @var $notifier Notifier
 	 */
 	private $notifier;
 
@@ -41,7 +41,7 @@ final class Patterns {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->notifier = new AdminNotifier();
+		$this->notifier = new Notifier();
 	}
 
 	/**
