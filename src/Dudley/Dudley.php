@@ -2,6 +2,7 @@
 namespace Dudley;
 
 use Dudley\Admin\Notifier;
+use Dudley\Command\DudleyCommand;
 use Dudley\Patterns\Traits\ActionTrait;
 
 /**
@@ -35,6 +36,13 @@ final class Dudley {
 	private $patterns;
 
 	/**
+	 * Set of registered WP-CLI commands.
+	 *
+	 * @var array
+	 */
+	private $commands;
+
+	/**
 	 * Patterns constructor.
 	 *
 	 * @since 1.0.0
@@ -66,6 +74,9 @@ final class Dudley {
 
 		// Setup the plugin.
 		add_action( 'plugins_loaded', [ $this, 'init' ] );
+
+		// Initialize WP-CLI commands.
+		add_action( 'init', [ $this, 'register_commands' ] );
 	}
 
 	/**
@@ -76,6 +87,17 @@ final class Dudley {
 	public function init() {
 		$this->patterns = $this->load_patterns();
 		$this->register_actions();
+	}
+
+	/**
+	 * Register WP-CLI commands.
+	 */
+	public function register_commands() {
+		if ( ! class_exists( 'WP_CLI_Command' ) ) {
+			return;
+		}
+
+		$this->commands = [ new DudleyCommand( $this ) ];
 	}
 
 	/**

@@ -18,7 +18,7 @@ class ACF extends AbstractMetaType {
 	 * Set up this meta type.
 	 */
 	public function setup() {
-		if ( ! class_exists( 'acf' ) ) {
+		if ( ! function_exists( 'acf_get_setting' ) ) {
 			deactivate_plugins( plugin_dirname() );
 
 			return;
