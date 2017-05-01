@@ -5,23 +5,29 @@ namespace Dudley\Command;
 use Dudley\Dudley;
 
 /**
- * Class DudleyCommand
+ * Manage the Dudley Patterns Framework.
  *
  * @package Dudley\Command
  */
 class DudleyCommand extends \WP_CLI_Command {
 	/**
+	 * Collection of subcommands.
+	 *
 	 * @var array
 	 */
 	private $subcommands = [];
 
 	/**
-	 * @var Dudley $plugin Main plugin class.
+	 * Main plugin class.
+	 *
+	 * @var Dudley $plugin
 	 */
 	private $plugin;
 
 	/**
 	 * DudleyCommand constructor.
+	 *
+	 * Add the plugin's primary command and all of its subcommands.
 	 *
 	 * @param Dudley $plugin Main plugin class.
 	 */
