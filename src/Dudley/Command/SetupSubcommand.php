@@ -6,11 +6,11 @@ use Dudley\Dudley;
 use Dudley\MetaType\AbstractMetaType;
 
 /**
- * Class DudleySetupCommand.
+ * Class SetupSubcommand.
  *
  * @package Dudley\Command
  */
-class DudleySetupCommand implements SubCommandInterface {
+class SetupSubcommand implements SubcommandInterface {
 	/**
 	 * The registered meta type.
 	 *
@@ -19,7 +19,7 @@ class DudleySetupCommand implements SubCommandInterface {
 	private $meta_type;
 
 	/**
-	 * DudleySetupCommand constructor.
+	 * SetupSubcommand constructor.
 	 *
 	 * @param Dudley $plugin Main plugin class.
 	 */
@@ -38,8 +38,11 @@ class DudleySetupCommand implements SubCommandInterface {
 	 * Run the subcommand.
 	 *
 	 * Find the registered meta type and run its setup task.
+	 *
+	 * @param array $args
+	 * @param array $assoc_args
 	 */
-	public function run() {
+	public function run( $args, $assoc_args ) {
 		$this->meta_type->setup();
 	}
 }

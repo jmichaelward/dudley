@@ -5,11 +5,17 @@
     "authors": [
         {
             "name": "Jeremy Ward",
-            "email": "jeremy@jmichaelward.com"
+            "email": "jeremy@jmichaelward.com",
+            "role": "Lead Developer"
         },
         {
             "name": "3five, Inc.",
-            "email": "wordpress@3five.com"
+            "email": "wordpress@3five.com",
+            "role": "Support"
+        },
+        {
+            "name": "WebDevStudios",
+            "role": "Support"
         }
     ],
     "autoload": {
