@@ -68,6 +68,9 @@ class DudleyCommand extends \WP_CLI_Command {
 	 *  wp dudley scaffold single --action=banner
 	 *  wp dudley scaffold single --name=CTABanner --action=banner_with_cta --meta=acf
 	 *  wp dudley scaffold repeater --action=faqs --meta=cmb2
+	 *
+	 * @param array $args       Command arguments.
+	 * @param array $assoc_args Command associative arguments.
 	 */
 	public function scaffold( $args, $assoc_args ) {
 		$this->subcommands[ ScaffoldSubcommand::$name ]->run( $args, $assoc_args );
@@ -75,6 +78,9 @@ class DudleyCommand extends \WP_CLI_Command {
 
 	/**
 	 * Re-runs meta field setup tasks, such as copying JSON field group definitions from packages to their correct directory.
+	 *
+	 * @param array $args Command arguments.
+	 * @param array $assoc_args Command associative arguments.
 	 */
 	public function setup( $args, $assoc_args ) {
 		$this->subcommands[ SetupSubcommand::$name ]->run( $args, $assoc_args );

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dudley\Scaffold;
+namespace Dudley\Command\Scaffold;
 
 class Repeater {
 	private $name;

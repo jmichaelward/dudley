@@ -1,13 +1,13 @@
 <?php
 
-namespace Dudley\Scaffold;
+namespace Dudley\Command\Scaffold;
 
 /**
- * Class Single
+ * Class Pattern
  *
  * @package Dudley\Scaffold
  */
-class Single {
+class Pattern {
 	/**
 	 * @var
 	 */
@@ -24,7 +24,7 @@ class Single {
 	private $meta;
 
 	/**
-	 * Single constructor.
+	 * Pattern constructor.
 	 *
 	 * @param $args
 	 */

@@ -2,6 +2,7 @@
 
 namespace Dudley\Command;
 
+use Dudley\Command\Scaffold as Scaffold;
 use Dudley\Dudley;
 use \WP_CLI;
 
@@ -20,9 +21,9 @@ class ScaffoldSubcommand implements SubcommandInterface {
 	 * @var array
 	 */
 	private $abstract_patterns = [
-		'item'     => 'Dudley\Scaffold\Item',
-		'single'   => 'Dudley\Scaffold\Single',
-		'repeater' => 'Dudley\Scaffold\Repeater',
+		'item'     => Scaffold\Item::class,
+		'pattern'  => Scaffold\Pattern::class,
+		'repeater' => Scaffold\Repeater::class,
 	];
 
 	/**
@@ -52,7 +53,7 @@ class ScaffoldSubcommand implements SubcommandInterface {
 	public function run( $args, $assoc_args ) {
 		// Check for valid pattern type.
 		if ( ! $this->valid_pattern( $args[0] ) ) {
-			return WP_CLI::error( 'Invalid pattern type entered. Must be one of item, single, or repeater.' );
+			return WP_CLI::error( 'Invalid pattern type entered. Must be one of item, pattern, or repeater.' );
 		}
 
 		if ( ! isset( $assoc_args['name'] ) && ! isset( $assoc_args['action'] ) ) {
@@ -83,7 +84,9 @@ class ScaffoldSubcommand implements SubcommandInterface {
 	private function create( $item, $args ) {
 		$class_name = $this->abstract_patterns[ $item ];
 
-		return ( new $class_name( $args ) )->scaffold();
+		$object = new $class_name( $args );
+
+		return $object->scaffold();
 	}
 
 	/**
