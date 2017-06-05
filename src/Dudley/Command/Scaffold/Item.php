@@ -51,7 +51,7 @@ class Item {
 
 			fwrite( $template, $this->template() );
 			fclose( $template );
-			// @codingStandarsIgnoreEnd
+			// @codingStandardsIgnoreEnd
 		}
 
 		\WP_CLI::success( "File {$this->name}Item.php scaffolded at {$dir}" );
