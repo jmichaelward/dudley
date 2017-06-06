@@ -76,7 +76,7 @@ use Dudley\Patterns\Abstracts\AbstractItem;
  *
  * @package Dudley\Patterns\Pattern\\$this->name
  */
-class {$this->name} extends AbstractItem {
+class {$this->name}Item extends AbstractItem {
 	/**
 	 * Requirements to render this item.
 	 */
