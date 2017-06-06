@@ -1,5 +1,5 @@
 # Plugin Name
-Contributors: jmichaelward, 3five
+Contributors: jmichaelward, 3five, WebDevStudios
 Donate link: 
 Tags: patterns library, web components, modular design system
 Requires at least: 4.5.3
@@ -56,12 +56,17 @@ Here is an example configuration that uses the Banner and Social Media Accounts 
     "authors": [
         {
             "name": "Jeremy Ward",
-            "email": "jeremy@jmichaelward.com"
+            "email": "jeremy@jmichaelward.com",
+            "role": "Lead Developer"
         },
         {
             "name": "3five, Inc.",
-            "email": "wordpress@3five.com"
-        }
+            "email": "wordpress@3five.com",
+            "role": "Sponsor
+        },
+        {
+            "name": "WebDevStudios",
+            "role": "Sponsor"
     ],
     "autoload": {
         "psr-4": {
