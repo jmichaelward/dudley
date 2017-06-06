@@ -5,11 +5,17 @@
     "authors": [
         {
             "name": "Jeremy Ward",
-            "email": "jeremy@jmichaelward.com"
+            "email": "jeremy@jmichaelward.com",
+            "role": "Developer"
         },
         {
             "name": "3five, Inc.",
-            "email": "wordpress@3five.com"
+            "email": "wordpress@3five.com",
+            "role": "Sponsor"
+        },
+        {
+            "name": "WebDevStudios",
+            "role": "Sponsor"
         }
     ],
     "autoload": {
@@ -19,6 +25,7 @@
         },
         "files": ["src/Dudley/helpers.php"]
     },
+    "license": "GPL-2.0",
     "minimum-stability": "dev",
     "require": {}
 }
