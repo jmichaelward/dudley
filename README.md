@@ -50,35 +50,37 @@ Here is an example configuration that uses the Banner and Social Media Accounts 
     
 ```
 {
-    "name": "dudley/dudley",
-    "description": "A WordPress plugin framework for installing reusable site theme modules.",
-    "type": "wordpress-plugin",
-    "authors": [
-        {
-            "name": "Jeremy Ward",
-            "email": "jeremy@jmichaelward.com",
-            "role": "Lead Developer"
-        },
-        {
-            "name": "3five, Inc.",
-            "email": "wordpress@3five.com",
-            "role": "Sponsor
-        },
-        {
-            "name": "WebDevStudios",
-            "role": "Sponsor"
-    ],
-    "autoload": {
-        "psr-4": {
-            "Dudley\\Patterns\\": "src/"
-        }
+  "name": "dudley/dudley",
+  "description": "A WordPress plugin framework for developing custom modules powered by meta fields.",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "Jeremy Ward",
+      "email": "jeremy@jmichaelward.com",
+      "role": "Lead Developer"
     },
-    "minimum-stability": "dev",
-    "require": {
-        "dudley/banner": "*",
-        "dudley/social-media-accounts: "*"
+    {
+      "name": "3five, Inc.",
+      "email": "wordpress@3five.com",
+      "role": "Sponsor"
+    },
+    {
+      "name": "WebDevStudios",
+      "role": "Sponsor"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dudley\\Patterns\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "dudley/banner": "*",
+    "dudley/social-media-accounts": "*"
+  }
 }
+
 ```
 - In the command line, from the root of the plugin directory, run `composer validate` to confirm that your `composer.json`
     file is properly formatted.
