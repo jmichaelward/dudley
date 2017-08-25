@@ -24,7 +24,9 @@ class ACF extends AbstractMetaType {
 			return;
 		}
 
-		$json_path = array_pop( acf_get_setting( 'load_json' ) );
+		$acf_json_path = acf_get_setting( 'load_json' );
+		$json_path     = array_pop( $acf_json_path );
+
 		$this->maybe_create_directory( $json_path );
 		$this->copy_acf_field_groups( $json_path );
 	}
