@@ -62,7 +62,7 @@ class DudleyCommand extends \WP_CLI_Command {
 	 * [--meta=<meta_type>]
 	 * : Meta field name to use.
 	 *
-	 * ## EXAMPLESr
+	 * ## EXAMPLES
 	 *
 	 *  wp dudley scaffold item
 	 *  wp dudley scaffold pattern --action=banner
