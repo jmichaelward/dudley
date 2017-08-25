@@ -51,7 +51,7 @@ class DudleyCommand extends \WP_CLI_Command {
 	 *
 	 * ## OPTIONS
 	 * <pattern>
-	 * : Type of pattern to create (must be one of: item, single, or repeater)
+	 * : Type of pattern to create (must be one of: item, pattern, or repeater). Repeater will automatically scaffold an Item class, as well.
 	 *
 	 * [--name=<name>]
 	 * : Optional if an action name is provided. Used to give a class a custom name different from the action name.
@@ -65,8 +65,8 @@ class DudleyCommand extends \WP_CLI_Command {
 	 * ## EXAMPLESr
 	 *
 	 *  wp dudley scaffold item
-	 *  wp dudley scaffold single --action=banner
-	 *  wp dudley scaffold single --name=CTABanner --action=banner_with_cta --meta=acf
+	 *  wp dudley scaffold pattern --action=banner
+	 *  wp dudley scaffold pattern --name=CTABanner --action=banner_with_cta --meta=acf
 	 *  wp dudley scaffold repeater --action=faqs --meta=cmb2
 	 *
 	 * @param array $args       Command arguments.
