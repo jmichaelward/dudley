@@ -28,16 +28,24 @@ trait HeadingTrait {
 	 * Print the heading to the template.
 	 */
 	public function heading() {
-		$meta_type   = self::$meta_type;
-		$action_name = self::$action_name;
+		$class = __CLASS__;
 
-		/**
-		 * Dynamic filter for the output of a module's heading.
-		 *
-		 * Filter uses the same setup as a module's action registration.
-		 *
-		 * Example: dudley_acf_banner_heading.
-		 */
-		echo esc_html( apply_filters( "dudley_{$meta_type}_{$action_name}_heading", $this->heading ) );
+		// Allow filtering of heading at the module level.
+		if ( property_exists( $class, 'meta_type' ) && property_exists( $class, 'action_name' ) ) {
+			$meta_type   = $class::$meta_type;
+			$action_name = $class::$action_name;
+
+			/**
+			 * Dynamic filter for the output of a module's heading.
+			 *
+			 * Filter uses the same setup as a module's action registration.
+			 *
+			 * Example: dudley_acf_banner_heading.
+			 */
+			echo esc_html( apply_filters( "dudley_{$meta_type}_{$action_name}_heading", $this->heading ) );
+			return;
+		}
+
+		echo esc_html( $this->heading );
 	}
 }
