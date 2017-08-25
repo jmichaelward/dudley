@@ -1,5 +1,8 @@
 # Dudley Patterns Framework - Changelog
 
+## Version 1.1.2
+- Refactor and repair scaffolding command for broader OS support.
+
 ## Version 1.1.1
 - Fix pass-by-reference error in ACF class.
 - Update heading method in HeadingTrait to apply filter only to patterns, not items.
