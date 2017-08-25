@@ -176,7 +176,10 @@ final class Dudley {
 
 				if ( T_CLASS === $tokens[ $index ][0] ) {
 					$index   += 2; // Skip class keyword and whitespace.
-					$fqcns[] = $namespace . '\\' . $tokens[ $index ][1];
+
+					if ( isset( $tokens[ $index ][1] ) ) {
+						$fqcns[] = $namespace . '\\' . $tokens[ $index ][1];
+					}
 				}
 			}
 		}
