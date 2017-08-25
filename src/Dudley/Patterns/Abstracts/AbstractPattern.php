@@ -5,7 +5,7 @@ use Dudley\Patterns\Traits\ActionTrait;
 use Dudley\Template\Template;
 
 /**
- * The primary abstract class for rendering an ACF Pattern. All patterns should define a public static $action_name
+ * The primary abstract class for rendering an ACF View. All patterns should define a public static $action_name
  * property (e.g., public static $action_name = 'faq_list'). This gets used to register an action within WordPress, and
  * to define the expected name of the view file (e.g., faq-list.php).
  *

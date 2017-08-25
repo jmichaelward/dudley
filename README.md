@@ -126,7 +126,7 @@ files, a `views/` directory for its template markup, and a `src/` directory for 
 
 ## Classes/Data Model
 This plugin supports the ability for devs to write their own custom modules that follow the conventions established
-by Dudley. PHP Models for each new module should be saved in their own directory under `src/Pattern`,
+by Dudley. PHP Models for each new module should be saved in their own directory under `src/View`,
 and classes should follow the namespace convention of `Dudley\Patterns\Pattern\[ClassName]`.
 
 To function, model classes must have a public static property called `$action_name`, the name of which is typically a

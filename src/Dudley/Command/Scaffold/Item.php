@@ -1,21 +1,26 @@
 <?php
+/**
+ * This class is responsible for scaffolding an Item class that can be called and used by a View or Repeater.
+ *
+ * Items do not have their own view files.
+ *
+ * @package Dudley\Command\Scaffold
+ */
 
 namespace Dudley\Command\Scaffold;
-
-use function Dudley\plugin_root;
 
 /**
  * Class Item
  *
  * @package Dudley\Scaffold
  */
-class Item {
+class Item extends AbstractItemScaffold {
 	/**
 	 * Name of the item to scaffold.
 	 *
 	 * @var string
 	 */
-	private $name;
+	public $name;
 
 	/**
 	 * Item constructor.
@@ -27,44 +32,11 @@ class Item {
 	}
 
 	/**
-	 * Scaffold an concrete implementation of AbstractItem.
-	 *
-	 * @return bool
-	 */
-	public function scaffold() {
-		$dir  = trailingslashit( plugin_root() . "patterns/{$this->name}" );
-		$file = $dir . "{$this->name}Item.php";
-
-		if ( file_exists( $dir ) && file_exists( $file ) ) {
-			\WP_CLI::error( "File {$this->name}Item.php already exists at {$dir}" );
-			return false;
-		}
-
-		if ( ! file_exists( plugin_root() . '/patterns/' . $this->name ) ) {
-			mkdir( plugin_root() . '/patterns/' . $this->name ); // @codingStandardsIgnoreLine
-		}
-
-		// @TODO Use the Filesystem API instead.
-		if ( ! file_exists( plugin_root() . "/patterns/{$this->name}/{$this->name}Item.php" ) ) {
-			// @codingStandardsIgnoreStart
-			$template = fopen( plugin_root() . "/patterns/{$this->name}/{$this->name}Item.php", 'w' );
-
-			fwrite( $template, $this->template() );
-			fclose( $template );
-			// @codingStandardsIgnoreEnd
-		}
-
-		\WP_CLI::success( "File {$this->name}Item.php scaffolded at {$dir}" );
-
-		return true;
-	}
-
-	/**
 	 * Template for the Item scaffold.
 	 *
 	 * @return string
 	 */
-	private function template() {
+	public function scaffold_class_template() {
 		return <<<TEMPLATE
 <?php
 namespace Dudley\Patterns\Pattern\\$this->name;

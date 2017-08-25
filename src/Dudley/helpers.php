@@ -2,6 +2,15 @@
 namespace Dudley;
 
 /**
+ * Helper function for outputting the directory separator.
+ *
+ * @return string
+ */
+function ds() {
+	return DIRECTORY_SEPARATOR;
+}
+
+/**
  * Some namespaced helper functions for the plugin, to minimize use of global constants.
  */
 

@@ -214,7 +214,7 @@ final class Dudley {
 	private function filter_classes_for_patterns( array $patterns ) {
 		return array_filter( array_map( function( $pattern_class ) {
 			// Check for patterns that also have a set action name so we can register them.
-			if ( ! ( strpos( $pattern_class, '\\Pattern\\' ) && property_exists( $pattern_class, 'action_name' ) ) ) {
+			if ( ! ( strpos( $pattern_class, '\\View\\' ) && property_exists( $pattern_class, 'action_name' ) ) ) {
 				return false;
 			}
 

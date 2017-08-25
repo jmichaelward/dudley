@@ -12,7 +12,7 @@ use function Dudley\plugin_root;
  */
 class Template {
 	/**
-	 * Pattern that will be rendered.
+	 * View that will be rendered.
 	 *
 	 * @var AbstractPattern
 	 */
@@ -28,7 +28,7 @@ class Template {
 	/**
 	 * Template constructor.
 	 *
-	 * @param string|AbstractPattern $pattern Pattern to render.
+	 * @param string|AbstractPattern $pattern View to render.
 	 * @param array                  $args    Optional arguments to pass to patterns that use them.
 	 */
 	public function __construct( $pattern, $args = null ) {

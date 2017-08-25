@@ -7,7 +7,7 @@ use Dudley\Patterns\Traits\HeadingTrait;
 /**
  * Class Example
  *
- * @package Dudley\Patterns\Pattern\Example
+ * @package Dudley\Patterns\View\Example
  */
 class Example extends AbstractPattern {
 	use HeadingTrait;

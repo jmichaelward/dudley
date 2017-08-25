@@ -5,7 +5,7 @@ use Dudley\Patterns\Abstracts\AbstractPattern;
 
 /**
  * Class CTA
- * @package Dudley\Patterns\Pattern\CTA
+ * @package Dudley\Patterns\View\CTA
  */
 class CTA extends AbstractPattern {
 	/**
