@@ -126,6 +126,15 @@ final class Dudley {
 	 * @since 1.0.0
 	 */
 	private function register_actions() {
+		/**
+		 * Filters the prefix for the framework-registered actions.
+		 *
+		 * Allows developers to fully customize the names of their hooks.
+		 *
+		 * @since 1.1.3
+		 */
+		$action_prefix = apply_filters( 'dudley_action_prefix', 'dudley' );
+
 		// Add actions for each class.
 		foreach ( $this->patterns as $class_name ) {
 			/**
@@ -134,12 +143,15 @@ final class Dudley {
 			 *
 			 * @var $class_name ActionTrait
 			 */
-			if ( $class_name::$meta_type ) {
-				add_action( 'dudley_' . $class_name::$meta_type . '_' . $class_name::$action_name, [
-					$class_name,
-					'render_view',
-				], 10, 1 );
+			if ( ! $class_name::$meta_type ) {
+				continue;
 			}
+
+			// Add the action for patterns with a meta_type. e.g., dudley_acf_banner.
+			add_action( "{$action_prefix}_{$class_name::$meta_type}_{$class_name::$action_name}", [
+				$class_name,
+				'render_view',
+			], 10, 1 );
 		}
 	}
 
