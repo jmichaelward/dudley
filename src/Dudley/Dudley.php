@@ -3,6 +3,7 @@ namespace Dudley;
 
 use Dudley\Admin\Notifier;
 use Dudley\Command\DudleyCommand;
+use Dudley\Patterns\Abstracts\AbstractPattern;
 use Dudley\Patterns\Traits\ActionTrait;
 
 /**
@@ -194,12 +195,13 @@ final class Dudley {
 	 */
 	public function load_patterns() {
 		$pattern_classes = $this->get_patterns_classes();
+		$pattern_classes = $this->filter_classes_for_patterns( $pattern_classes );
 
 		if ( ! $pattern_classes ) {
 			$this->notifier->patterns_not_found();
 		}
 
-		return $this->filter_classes_for_patterns( $pattern_classes );
+		return $pattern_classes;
 	}
 
 	/**
@@ -214,7 +216,7 @@ final class Dudley {
 	private function filter_classes_for_patterns( array $patterns ) {
 		return array_filter( array_map( function( $pattern_class ) {
 			// Check for patterns that also have a set action name so we can register them.
-			if ( ! ( strpos( $pattern_class, '\\View\\' ) && property_exists( $pattern_class, 'action_name' ) ) ) {
+			if ( ! ( strpos( $pattern_class, '\\Pattern\\' ) && property_exists( $pattern_class, 'action_name' ) ) ) {
 				return false;
 			}
 
