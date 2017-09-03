@@ -70,8 +70,8 @@ final class Dudley {
 	 */
 	public function hooks() {
 		// Register activation and deactivation hooks.
-		register_activation_hook( plugin_root() . '/dudley.php', [ $this, 'activate' ] );
-		register_deactivation_hook( plugin_root() . '/dudley.php', [ $this, 'deactivate' ] );
+		register_activation_hook( plugin_root() . 'dudley.php', [ $this, 'activate' ] );
+		register_deactivation_hook( plugin_root() . 'dudley.php', [ $this, 'deactivate' ] );
 
 		// Setup the plugin.
 		add_action( 'plugins_loaded', [ $this, 'init' ] );
