@@ -59,16 +59,6 @@ final class Dudley {
 	 * @since 1.0.0
 	 */
 	public function run() {
-		$this->hooks();
-		$this->config->meta_type->hooks();
-	}
-
-	/**
-	 * Register plugin hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function hooks() {
 		// Register activation and deactivation hooks.
 		register_activation_hook( plugin_root() . 'dudley.php', [ $this, 'activate' ] );
 		register_deactivation_hook( plugin_root() . 'dudley.php', [ $this, 'deactivate' ] );
@@ -78,6 +68,8 @@ final class Dudley {
 
 		// Initialize WP-CLI commands.
 		add_action( 'init', [ $this, 'register_commands' ] );
+
+		$this->config->meta_type->hooks();
 	}
 
 	/**
@@ -211,7 +203,7 @@ final class Dudley {
 	 *
 	 * @since 1.0.0
 	 */
-	public function load_patterns() {
+	private function load_patterns() {
 		$pattern_classes = $this->get_patterns_classes();
 		$pattern_classes = $this->filter_classes_for_patterns( $pattern_classes );
 
