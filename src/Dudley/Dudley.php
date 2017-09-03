@@ -214,19 +214,17 @@ final class Dudley {
 	 * @return array
 	 */
 	private function filter_classes_for_patterns( array $patterns ) {
-		return array_filter( array_map( function( $pattern_class ) {
-			// Check for patterns that also have a set action name so we can register them.
-			if ( ! ( strpos( $pattern_class, '\\Pattern\\' ) && property_exists( $pattern_class, 'action_name' ) ) ) {
+		return array_filter( array_map( function ( $pattern_class ) {
+			// \WP_CLI_Command class is not found on front-end. This guards against a fatal error.
+			if ( false !== strpos( $pattern_class, 'Dudley\\Command' ) ) {
 				return false;
 			}
 
-			// Return the pattern if it has an associated action.
-			if ( $pattern_class::$action_name ) {
+			if ( is_subclass_of( $pattern_class, AbstractPattern::class ) ) {
 				return $pattern_class;
 			}
 
-			// All patterns must have the $action_name property. Something went wrong.
-			throw new \LogicException( 'No action defined for ' . $pattern_class );
+			return false;
 		}, array_values( $patterns ) ) );
 	}
 
