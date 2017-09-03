@@ -164,6 +164,10 @@ final class Dudley {
 	 * @since 1.0.0
 	 */
 	private function get_patterns_classes() {
+		if ( $fqcns = get_transient( 'dudley_pattern_namespaces' ) ) {
+			return $fqcns;
+		}
+
 		$fqcns = []; // Fully qualified class namespace.
 
 		$all_files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( plugin_root() ) );
@@ -196,6 +200,8 @@ final class Dudley {
 				}
 			}
 		}
+
+		set_transient( 'dudley_pattern_namespaces', $fqcns, 1 * MINUTE_IN_SECONDS );
 
 		return $fqcns;
 	}
