@@ -5,7 +5,7 @@
  * Plugin URI: http://jmichaelward.com
  * Author: Jeremy Ward
  * Author URI: http://jmichaelward.com
- * Version: 1.1.2
+ * Version: 1.1.3
  * textdomain: dudley
  *
  * @package Dudley\Patterns
