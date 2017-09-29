@@ -1,9 +1,19 @@
 <?php
+/**
+ * Admin Notifier class.
+ *
+ * Responsible for printing alerts to the admin when something isn't right with the plugin.
+ *
+ * @author Jeremy Ward <jeremy@jmichaelward.com>
+ * @package Dudley\Admin
+ */
+
 namespace Dudley\Admin;
 
 /**
  * Class Notifier
- * @package Dudley\Patterns
+ *
+ * @package Dudley\Admin
  */
 class Notifier {
 	/**
@@ -21,9 +31,11 @@ class Notifier {
 	}
 
 	/**
-	 * @param $message
+	 * Print the error notice.
+	 *
+	 * @param string $message The error message to print.
 	 */
 	public function print_error_notice( $message ) {
-		printf( '<div class="notice notice-error"><p>%1$s</p></div>', $message );
+		printf( '<div class="notice notice-error"><p>%1$s</p></div>', esc_html( $message ) );
 	}
 }
