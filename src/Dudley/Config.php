@@ -31,10 +31,6 @@ class Config {
 	 * @param Dudley $plugin The main plugin object.
 	 */
 	public function __construct( Dudley $plugin ) {
-		if ( ! defined( 'DUDLEY_META_TYPE' ) ) {
-			define( 'DUDLEY_META_TYPE', 'acf' );
-		}
-
 		$this->plugin    = $plugin;
 		$this->meta_type = $this->get_meta_type();
 	}
@@ -45,7 +41,7 @@ class Config {
 	 * @return AbstractMetaType|bool
 	 */
 	private function get_meta_type() {
-		if ( 'acf' === DUDLEY_META_TYPE ) {
+		if ( ! defined( 'DUDLEY_META_TYPE' ) || 'acf' === DUDLEY_META_TYPE ) {
 			return new ACF( $this->plugin );
 		}
 

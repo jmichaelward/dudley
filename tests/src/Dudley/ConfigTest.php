@@ -17,6 +17,8 @@ class ConfigTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public $dudley;
 
+	protected $preserveGlobalState = false;
+
 	/**
 	 * Set up test dependencies.
 	 */
@@ -55,7 +57,7 @@ class ConfigTest extends \WP_Mock\Tools\TestCase {
 	 * Test that get_meta_type returns false if an unsupported meta type is assigned to DUDLEY_META_TYPE.
 	 */
 	public function test_nonsupported_meta_type_returns_false() {
-		putenv( 'DUDLEY_META_TYPE', 'unregisteredmetatype' ); // @codingStandardsIgnoreLine
+		define( 'DUDLEY_META_TYPE', 'unsupportedmetatype' );
 
 		$reflection = new ReflectionMethod( \Dudley\Config::class, 'get_meta_type' );
 		$reflection->setAccessible( true );

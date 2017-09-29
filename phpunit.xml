@@ -5,9 +5,12 @@
             <directory>./tests/src/</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="DUDLEY_META_TYPE" value="acf"/>
+    </php>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
 </phpunit>
